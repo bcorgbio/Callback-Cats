@@ -60,14 +60,27 @@ ggplot(dat, aes(activity, degC)) +
     geom = "errorbar",
     color = "red",
     width = .3
-  )
+  ) 
 ```
 
+<<<<<<< HEAD
 All subjects saw decreases in body temperature after engaging in physical activity in the form of jumping jacks. Average resting body temperatures ranged from 28°C to just under 36°C, and temperatures dropped by 2-4 degrees after physical activity. It can be concluded that short duration, low intensity aerobic activity produces a slight decrease in body temperature.
 
 # Discussion
 
 The objective of this report is to answer “Does body temperature vary in human subjects according to activity level?” Recordings from the Arduino DHT11 sensor showed the baseline of body temperature when in sedentary position. When group members engaged in physical activity, temperatures decreased. This was congruent with the findings from @hagey2017there that demonstrated how skin temperature varies with physical activity. When transitioning from sedentary to activity, there is an initial reduction in skin temperature as a result of evaporative cooling. As explained in the article, the decreasing temperature is a result of heat dissipating from the active muscles to the skin surface during exercise and it is also related to the redirection of blood flow to active muscles. 
+=======
+# Results Summary
+
+All four 
+
+### Figure 1: Body Temperature Between Activity Type By Subject
+
+
+# Discussion
+
+The objective of this report is to answer “Does body temperature vary in human subjects according to activity level?” Recordings from the Arduino DHT11 sensor showed the baseline of body temperature when in sedentary position. Meanwhile, when group members engaged in physical activity, body temperatures increased. This was congruent with the findings from “Human Thermoregulation and Measurement of Body Temperature in Exercise and Clinical Settings” that demonstrated increasing body temperatures from sedentary to activity due to the increasing output of metabolic heat caused by physical exertion. As noted in the article, routine engagement in physical activity inducing heat stress can aid in greater thermo- tolerance and improve overall function of the human body.
+>>>>>>> 91c49be6e0444fbf7fe440f9823957a263f517fc
 
 
 # Author Contributions
