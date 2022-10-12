@@ -10,20 +10,24 @@ bibliography: cats.bib
 
 Thermoregulation is the ability of an organism to regulate their temperature within certain parameters. Internal thermoregulation is known as homeostasis which is a dynamic stability that plays an important role during physical exercise and periods of rest. The previous study, @hagey2017there, discusses the complexity of thermoregulation in humans, and the regulation of body temperature during physical exertion. When human subjects increase their activity from sedentary to active, there is a decrease in skin temperature due to an increase in perspiration.  production.
 
+
 # Methods
 
 An Arduino-based temperature recording system using the DHT11 sensor was implemented to record body temperatures of subjects over a 100 second period at two different intervals, once during the subject’s resting state and again after 5 minutes of activity (jumping jacks). The data captured for each subject was saved in a CSV file that was then loaded into R for analysis. Mean temperatures for each subject were plotted and combined into one figure for comparison of activity temperatures between subjects.
 
+![A jumping jack](https://www.sparkpeople.com/assets/exercises/Jumping-Jacks.gif){width=40%}
+
 ### Loading the Data and Tidyverse
 ```{r, message = FALSE}
-library(tidyverse) #alw
-dat.f <- list.files(pattern = "couch|active.csv")    
+library(tidyverse) 
+dat.f <- list.files(pattern = "couch|active.csv")    #find the files
 ```
 
-### Combine the list into table
+### Combine the active and couch data into a list
 ```{r,message = FALSE}
 
-dat.l <- list()                                                                               #make an empty list
+dat.l <- list()   
+#make an empty list
 
 for(i in dat.f){
   met.dat<- unlist(strsplit(i,"_"))                                                  
@@ -38,6 +42,7 @@ for(i in dat.f){
 }
 
 dat <- do.call(rbind,dat.l)
+#combine the list into table
 ```
 
 
@@ -57,8 +62,6 @@ ggplot(dat, aes(activity, degC)) +
     width = .3
   )
 ```
-
-
 
 
 # Discussion
