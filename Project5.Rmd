@@ -8,7 +8,7 @@ bibliography: cats.bib
 
 # Introduction
 
-Thermoregulation is the ability of an organism to regulate their temperature within certain parameters. Internal thermoregulation is known as homeostasis which ia a dynamic stability that plays an important role during physical exercise and periods of rest. The previous study, @hagey2017there, discusses the complexity of thermoregulation in humans, and the regulation of body temperature during physical exertion. When human subjects increase their activity from sedentary to active, there is an increase in body temperature due to an increase in metabolic heat production.
+Thermoregulation is the ability of an organism to regulate their temperature within certain parameters. Internal thermoregulation is known as homeostasis which is a dynamic stability that plays an important role during physical exercise and periods of rest. The previous study, @hagey2017there, discusses the complexity of thermoregulation in humans, and the regulation of body temperature during physical exertion. When human subjects increase their activity from sedentary to active, there is an increase in body temperature due to an increase in metabolic heat production.
 
 # Methods
 
@@ -63,16 +63,16 @@ ggplot(dat, aes(activity, degC)) +
 
 # Discussion
 
-The objective of this report is to answer “Does body temperature vary in human subjects according to activity level?” Recordings from the Arduino DHT11 sensor showed the baseline of body temperature when in sedentary position. Meanwhile, when group members engaged in physical activity, body temperatures increased. This was congruent with the findings from “Human Thermoregulation and Measurement of Body Temperature in Exercise and Clinical Settings” that demonstrated increasing body temperatures from sedentary to activity due to the increasing output of metabolic heat caused by physical exertion. As noted in the article, routine engagement in physical activity inducing heat stress can aid in greater thermo- tolerance and improving overall function of the human body.
+The objective of this report is to answer “Does body temperature vary in human subjects according to activity level?” Recordings from the Arduino DHT11 sensor showed the baseline of body temperature when in sedentary position. Meanwhile, when group members engaged in physical activity, body temperatures increased. This was congruent with the findings from “Human Thermoregulation and Measurement of Body Temperature in Exercise and Clinical Settings” that demonstrated increasing body temperatures from sedentary to activity due to the increasing output of metabolic heat caused by physical exertion. As noted in the article, routine engagement in physical activity inducing heat stress can aid in greater thermo- tolerance and improve overall function of the human body.
 
 
 # Author Contributions
 
 Data collection was worked on by all members of the team and all members also contributed to proofreading of data, results, and R code.
-Clare Mungovan: Worked on the Introduction section
+Clare Mungovan: Worked on the Introduction section.
 Adam Qu: Described the methods used for this report.
-Matteo Torquati: Put in all the code into Rmd file and formatted it
-Julie Vu: Worked on the discussion section
+Matteo Torquati: Put in all the code into Rmd file and formatted it.
+Julie Vu: Worked on the discussion section.
 
 
 # References
