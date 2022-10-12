@@ -63,16 +63,16 @@ ggplot(dat, aes(activity, degC)) +
   ) 
 ```
 
-<<<<<<< HEAD
+# Results Summary
+
+All four 
+
 ### Figure 1: Body Temperature Between Activity Type By Subject
 
-=======
-All subjects saw decreases in body temperature in comparison to their sedentary temperature after engaging in physical activity in the form of jumping jacks.
->>>>>>> 669757c7b8fd8b68ffecbbcad0357d2cd0a5d6d9
 
 # Discussion
 
-The objective of this report is to answer “Does body temperature vary in human subjects according to activity level?” Recordings from the Arduino DHT11 sensor showed the baseline of body temperature when in sedentary position. When group members engaged in physical activity, temperatures decreased. This was congruent with the findings from _ that demonstrated how skin temperature varies with physical activity. When transitioning from sedentary to activity, there is an initial reduction in skin temperature as a result of evaporative cooling. As explained in the article, the decreasing temperature is a result of heat dissipating from the active muscles to the skin surface during exercise and it is also related to the redirection of blood flow to active muscles. 
+The objective of this report is to answer “Does body temperature vary in human subjects according to activity level?” Recordings from the Arduino DHT11 sensor showed the baseline of body temperature when in sedentary position. Meanwhile, when group members engaged in physical activity, body temperatures increased. This was congruent with the findings from “Human Thermoregulation and Measurement of Body Temperature in Exercise and Clinical Settings” that demonstrated increasing body temperatures from sedentary to activity due to the increasing output of metabolic heat caused by physical exertion. As noted in the article, routine engagement in physical activity inducing heat stress can aid in greater thermo- tolerance and improve overall function of the human body.
 
 
 # Author Contributions
