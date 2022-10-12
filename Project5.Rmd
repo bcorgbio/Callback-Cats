@@ -63,11 +63,11 @@ ggplot(dat, aes(activity, degC)) +
   )
 ```
 
-All subjects saw decreases in body temperature in comparison to their sedentary temperature after engaging in physical activity in the form of jumping jacks.
+All subjects saw decreases in body temperature after engaging in physical activity in the form of jumping jacks. Average resting body temperatures ranged from 28°C to just under 36°C, and temperatures dropped by 2-4 degrees after physical activity. It can be concluded that short duration, low intensity aerobic activity produces a slight decrease in body temperature.
 
 # Discussion
 
-The objective of this report is to answer “Does body temperature vary in human subjects according to activity level?” Recordings from the Arduino DHT11 sensor showed the baseline of body temperature when in sedentary position. When group members engaged in physical activity, temperatures decreased. This was congruent with the findings from _ that demonstrated how skin temperature varies with physical activity. When transitioning from sedentary to activity, there is an initial reduction in skin temperature as a result of evaporative cooling. As explained in the article, the decreasing temperature is a result of heat dissipating from the active muscles to the skin surface during exercise and it is also related to the redirection of blood flow to active muscles. 
+The objective of this report is to answer “Does body temperature vary in human subjects according to activity level?” Recordings from the Arduino DHT11 sensor showed the baseline of body temperature when in sedentary position. When group members engaged in physical activity, temperatures decreased. This was congruent with the findings from @hagey2017there that demonstrated how skin temperature varies with physical activity. When transitioning from sedentary to activity, there is an initial reduction in skin temperature as a result of evaporative cooling. As explained in the article, the decreasing temperature is a result of heat dissipating from the active muscles to the skin surface during exercise and it is also related to the redirection of blood flow to active muscles. 
 
 
 # Author Contributions
