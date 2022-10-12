@@ -8,7 +8,7 @@ bibliography: cats.bib
 
 # Introduction
 
-Thermoregulation is the ability of an organism to regulate their temperature within certain parameters. Internal thermoregulation is known as homeostasis which is a dynamic stability that plays an important role during physical exercise and periods of rest. The previous study, @hagey2017there, discusses the complexity of thermoregulation in humans, and the regulation of body temperature during physical exertion. When human subjects increase their activity from sedentary to active, there is an increase in body temperature due to an increase in metabolic heat production.
+Thermoregulation is the ability of an organism to regulate their temperature within certain parameters. Internal thermoregulation is known as homeostasis which is a dynamic stability that plays an important role during physical exercise and periods of rest. The previous study, @hagey2017there, discusses the complexity of thermoregulation in humans, and the regulation of body temperature during physical exertion. When human subjects increase their activity from sedentary to active, there is a decrease in skin temperature due to an increase in perspiration.  production.
 
 # Methods
 
