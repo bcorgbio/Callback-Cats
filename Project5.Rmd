@@ -60,8 +60,10 @@ ggplot(dat, aes(activity, degC)) +
     geom = "errorbar",
     color = "red",
     width = .3
-  )
+  ) 
 ```
+
+### Figure 1: Body Temperature Between Activity Type By Subject
 
 
 # Discussion
