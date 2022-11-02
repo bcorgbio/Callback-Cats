@@ -58,3 +58,45 @@ hindwings %>%
   coo_align()  %>%
   fgProcrustes() %>%
   stack()
+
+#perform EFA
+forewings %>%
+  coo_interpolate(fore.min) %>% 
+  coo_align()  %>%
+  fgProcrustes() %>% 
+  efourier(norm=FALSE) 
+
+hindwings %>% 
+  coo_interpolate(hind.min) %>% 
+  coo_align()  %>%
+  fgProcrustes() %>% 
+  efourier(norm=FALSE) 
+
+#perform PCA
+forewing.pca <- forewings %>%
+  coo_interpolate(fore.min) %>%
+  coo_align()  %>%
+  coo_slide(id=1) %>% 
+  fgProcrustes() %>% 
+  efourier(norm=FALSE) %>% 
+  PCA()
+
+hindwing.pca <-hindwings %>% 
+  coo_interpolate(hind.min) %>% 
+  coo_align()  %>%
+  coo_slide(id=1) %>% 
+  fgProcrustes() %>% 
+  efourier(norm=FALSE) %>% 
+  PCA()
+
+hindwings %>% 
+  coo_interpolate(hind.min) %>% 
+  coo_align()  %>%
+  coo_slide(id=1) %>% 
+  fgProcrustes() %>% 
+  stack
+#visualize PCA
+forewing.pca %>% 
+  plot_PCA(title = "forewings")
+hindwing.pca %>% 
+  plot_PCA(title = "hindwings")
