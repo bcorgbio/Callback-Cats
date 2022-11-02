@@ -1,0 +1,38 @@
+---
+title: "Module 6 Project"
+author: "Callback Cats"
+date: "2022-11-02"
+output: html_document
+bibliography: mod6.bib
+---
+
+
+# Introduction
+
+
+
+# Methods
+
+
+
+
+
+### Subheader
+
+
+
+# Results
+
+
+# Discussion
+
+
+# Author Contributions
+
+Clare Mungovan: 
+Adam Qu: 
+Matteo Torquati: 
+Julie Vu: 
+
+
+# References
