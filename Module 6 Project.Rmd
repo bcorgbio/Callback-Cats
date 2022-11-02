@@ -26,6 +26,8 @@ library(rgbif)
 
 ### Digitization
 
+Roughly 200 species of Lepidoptera
+
 ### Shape analysis
 
 ### Comparative analysis
