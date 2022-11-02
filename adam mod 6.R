@@ -212,4 +212,60 @@ hindPC1.plot <- plotShift(RR=hindPC1.RR,SS=hindPC1.SS)
 forePC1.plot <- plotShift(RR=hindPC1.RR,SS=hindPC1.SS)
 hindPC1.plot$plotClades()
 
+library(ggtree)
+library(wesanderson)
+
+plot_SS <- function(tre=NULL,SS=NULL,tax=NULL){
+  
+  
+  nodes <- as.numeric(rownames(SS$single.clades))
+  
+  pal <- wes_palette("Zissou1",n=length(nodes))
+  sp <- list()
+  for(i in nodes){
+    sp.i <- extract.clade(tre,i)$tip.label
+    
+    #print(head(tax))
+    sub.names <- lapply(tax,function(x) x[x%in%sp.i]) 
+    
+    in.clades <- lapply(sub.names,function(x) length(x)>0) 
+    all.of.clade <- lapply(sub.names,function(x) all(sapply(sp.i,function(z) z%in%x))) 
+    
+    high.clade <- names(sub.names)[last(which(all.of.clade==T))]
+    all.clades <- names(sub.names)[which(in.clades==T)]
+    crown <- ""
+    if(high.clade!=last(names(sub.names))) crown <- "crown-"
+    
+    sub.clades <- NULL
+    if(length(grepl("oidea",all.clades))>0) sub.clades <- all.clades[grepl("oidea",all.clades)]
+    
+    high.clade2 <- paste0(crown,high.clade,": ",paste0(sub.clades,collapse = "+"))
+    sp[[paste0(i)]] <- tibble(n=i,species=sp.i,clade=high.clade2)
+    
+  }
+  
+  
+  d <- do.call(rbind,sp)%>% 
+    rename(label=species) 
+  
+  d2<- d %>% rename(clade_name=clade) 
+  
+  p <- ggtree(tre)+ scale_y_reverse()
+  
+  p$data <- p$data %>% left_join(d) %>% left_join(tibble(node=nodes,SS$single.clades) %>% mutate(shift=ifelse(rate.difference>0,"+","-")))
+  
+  p <-  p+geom_tiplab(aes(col=clade),geom="text",size=1.2)+
+    geom_cladelab(data=d2,mapping=aes(node=n,col=clade_name,label=clade_name),offset=1,size=1.5)+
+    geom_hilight(data=d2,mapping = aes(node = n,fill=clade_name),alpha = 0.01)+
+    scale_fill_manual(values = pal)+
+    scale_color_manual(values = pal)+
+    theme(legend.position = "none")+geom_nodepoint(mapping=aes(subset = shift =="-"), size=5, shape=25,fill='blue',color='blue',alpha=0.7)+
+    geom_nodepoint(mapping=aes(subset = shift =="+"), size=5, shape=24, fill='red',color='red',alpha=0.7)
+  p <- p+xlim(NA,6)
+  res <- tibble(n=nodes,SS$single.clades) %>% left_join(d %>% select(n,clade) %>% unique)
+  
+  return(list(plot=p,res=res))
+  
+}
+
 
