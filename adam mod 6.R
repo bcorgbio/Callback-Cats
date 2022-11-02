@@ -111,3 +111,86 @@ plot(lep.tree,cex=0.1)
 
 lep.tree$tip.label <- gsub("_"," ",lep.tree$tip.label)
 basename(names(outs))[1:5]
+
+lep.sp <- read_csv("lep_image_data.csv")
+head(lep.sp)
+head(lep.sp$identifier)
+
+out.data <- tibble(xy.file=basename(names(outs))) %>% 
+  mutate(identifier=gsub("XY_|_hindwing|_forewing|.txt","",xy.file)) %>% 
+  left_join(lep.sp)
+head(out.data)
+
+head(hindwing.pca$x,1)
+
+#First 2 PCs for each wing stored with species info
+hindwing.pca2 <-  tibble(xy.file=basename(rownames(hindwing.pca$x)),PC1=hindwing.pca$x[,1],PC2=hindwing.pca$x[,2]) %>% 
+  left_join(out.data)
+forewing.pca2 <-  tibble(xy.file=basename(rownames(forewing.pca$x)),PC1=forewing.pca$x[,1],PC2=forewing.pca$x[,2])%>% 
+  left_join(out.data)
+
+#EVOLUTIONARY RATES
+drops <- lep.tree$tip.label[!lep.tree$tip.label%in%unique(out.data$species)]
+
+lep.tree2 <- drop.tip(lep.tree,drops)
+
+plot(lep.tree2,cex=0.5)
+
+#PC1s
+hind.pc1 <- hindwing.pca2 %>% 
+  filter(species%in% lep.tree2$tip.label) %>% 
+  group_by(species) %>% 
+  summarize(PC1=mean(PC1)) %>% 
+  pull
+
+names(hind.pc1) <-  hindwing.pca2%>% 
+  filter(species%in% lep.tree2$tip.label) %>% 
+  group_by(species) %>% 
+  summarize(PC1=mean(PC1)) %>% 
+  pull(species)
+
+fore.pc1 <- forewing.pca2 %>% 
+  filter(species%in% lep.tree2$tip.label) %>% 
+  group_by(species) %>% 
+  summarize(PC1=mean(PC1)) %>% 
+  pull(PC1)
+
+names(fore.pc1) <-  forewing.pca2 %>% 
+  filter(species%in% lep.tree2$tip.label) %>% 
+  group_by(species) %>% 
+  summarize(PC1=mean(PC1)) %>% 
+  pull(species)
+
+#PC2s
+hind.pc2 <- hindwing.pca2 %>% 
+  filter(species%in% lep.tree2$tip.label) %>% 
+  group_by(species) %>% 
+  summarize(PC2=mean(PC2)) %>% 
+  pull(PC2)
+
+names(hind.pc2) <-  hindwing.pca2%>% 
+  filter(species%in% lep.tree2$tip.label) %>% 
+  group_by(species) %>%
+  summarize(PC2=mean(PC2)) %>% 
+  pull(species)
+
+fore.pc2 <- forewing.pca2 %>% 
+  filter(species%in% lep.tree2$tip.label) %>% 
+  group_by(species) %>% 
+  summarize(PC2=mean(PC2)) %>% 
+  pull(PC2)
+
+names(fore.pc2) <-  forewing.pca2 %>% 
+  filter(species%in% lep.tree2$tip.label) %>% 
+  group_by(species) %>% 
+  summarize(PC2=mean(PC2)) %>% 
+  pull(species)
+
+library(phytools)
+forePC1.BM<-brownie.lite(lep.tree2,fore.pc1*10)
+hindPC1.BM<-brownie.lite(lep.tree2,hind.pc1*10)
+
+forePC2.BM<-brownie.lite(lep.tree2,fore.pc2*10)
+hindPC2.BM<-brownie.lite(lep.tree2,hind.pc2*10)
+
+
