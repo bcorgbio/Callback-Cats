@@ -268,4 +268,35 @@ plot_SS <- function(tre=NULL,SS=NULL,tax=NULL){
   
 }
 
+tax.names <- readRDS("Lep_classification.RDS")
+hindPC1.res <- plot_SS(lep.tree2,hindPC1.SS,tax = tax.names)
 
+hindPC1.res$plot
+
+hindPC1.res$res
+#^indicates what clades/lineages underwent shift, scale of shift
+
+#Shape evolution correlation
+#PC1
+hindPC1.pic <- pic(hind.pc1,phy = lep.tree2)
+forePC1.pic <- pic(fore.pc1,phy = lep.tree2)
+
+PC1.pic <- tibble(
+  hind=hindPC1.pic,
+  fore=forePC1.pic
+)
+PC1.pic %>% 
+  ggplot(aes(x=fore,y=hind))+geom_point()+geom_smooth(method="lm")
+summary(lm(hind~fore,PC1.pic))
+
+#PC2
+hindPC2.pic <- pic(hind.pc2,phy = lep.tree2)
+forePC2.pic <- pic(fore.pc2,phy = lep.tree2)
+
+PC2.pic <- tibble(
+  hind=hindPC2.pic,
+  fore=forePC2.pic
+)
+PC2.pic %>% 
+  ggplot(aes(x=fore,y=hind))+geom_point()+geom_smooth(method="lm")
+summary(lm(hind~fore,PC2.pic))
