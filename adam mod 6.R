@@ -273,5 +273,4 @@ hindPC1.res <- plot_SS(lep.tree2,hindPC1.SS,tax = tax.names)
 
 hindPC1.res$plot
 
-
-
+hindPC1.res$res
