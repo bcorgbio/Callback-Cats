@@ -102,13 +102,13 @@ hindwing.pca %>%
   plot_PCA(title = "hindwings")
 
 #COMPARATIVE ANALYSIS
+#answer question 1: do hind/forewings vary in evo rate?
 library(ape)
 
 lep.tree <- ape::read.tree("lep_tree2.tre")
 
 lep.tree <- ladderize(lep.tree)
 plot(lep.tree,cex=0.1)
-
 lep.tree$tip.label <- gsub("_"," ",lep.tree$tip.label)
 basename(names(outs))[1:5]
 
