@@ -193,4 +193,23 @@ hindPC1.BM<-brownie.lite(lep.tree2,hind.pc1*10)
 forePC2.BM<-brownie.lite(lep.tree2,fore.pc2*10)
 hindPC2.BM<-brownie.lite(lep.tree2,hind.pc2*10)
 
+forePC1.BM$sig2.single
+
+#Shifts in evolutionary rate
+library(RRphylo)
+hindPC1.RR <- RRphylo(tree=lep.tree2,y=hind.pc1)
+hindPC1.RR$rates
+
+hindPC1.SS<- search.shift(RR=hindPC1.RR,status.type="clade")
+
+hindPC1.SS$single.clades
+
+plot(lep.tree2)
+nodelabels(node = as.numeric(rownames(hindPC1.SS$single.clades)),text = rownames(hindPC1.SS$single.clades))
+
+hindPC1.plot <- plotShift(RR=hindPC1.RR,SS=hindPC1.SS)
+
+forePC1.plot <- plotShift(RR=hindPC1.RR,SS=hindPC1.SS)
+hindPC1.plot$plotClades()
+
 
