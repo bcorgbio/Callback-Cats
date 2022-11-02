@@ -3,23 +3,38 @@ title: "Module 6 Project"
 author: "Callback Cats"
 date: "2022-11-02"
 output: html_document
-bibliography: mod6.bib
+bibliography: BIOL3140.bib
 ---
 
 
 # Introduction
 
-
+<center>
+![Forewing and Hindwing of Different Lepidoptera, Image from @patil2017insight ](https://d3i71xaburhd42.cloudfront.net/729040e948cb87d9f90e5573c731964d6b673146/7-Figure9-1.png){width=40%}
 
 # Methods
 
 
 
+### Image acquisition
 
+All images of the Lepidoptera were pulled from the Global Biodiversity Information Facility (GBIF), a clearing house of collections and species information. GBIF have created an R package, [rgif](https://www.gbif.org/tool/81747/rgbif), that allows access to GBIF’s application programming interface (API).This packages allows their records to be searchable from the command line.
 
-### Subheader
+```{r, message = FALSE}
+library(rgbif) 
+```
 
+### Digitization
 
+### Shape analysis
+
+### Comparative analysis
+
+### Evolutionary rates
+
+### Shifts in evolutionary rates
+
+### Shape evolution correlation
 
 # Results
 
