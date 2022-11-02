@@ -274,3 +274,17 @@ hindPC1.res <- plot_SS(lep.tree2,hindPC1.SS,tax = tax.names)
 hindPC1.res$plot
 
 hindPC1.res$res
+#^indicates what clades/lineages underwent shift, scale of shift
+
+#Shape evolution correlation
+hindPC1.pic <- pic(hind.pc1,phy = lep.tree2)
+forePC1.pic <- pic(fore.pc1,phy = lep.tree2)
+
+PC1.pic <- tibble(
+  hind=hindPC1.pic,
+  fore=forePC1.pic
+)
+PC1.pic %>% 
+  ggplot(aes(x=fore,y=hind))+geom_point()+geom_smooth(method="lm")
+summary(lm(hind~fore,PC1.pic))
+
