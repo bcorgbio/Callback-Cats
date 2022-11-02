@@ -268,4 +268,10 @@ plot_SS <- function(tre=NULL,SS=NULL,tax=NULL){
   
 }
 
+tax.names <- readRDS("Lep_classification.RDS")
+hindPC1.res <- plot_SS(lep.tree2,hindPC1.SS,tax = tax.names)
+
+hindPC1.res$plot
+
+
 
