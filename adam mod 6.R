@@ -192,8 +192,13 @@ hindPC1.BM<-brownie.lite(lep.tree2,hind.pc1*10)
 
 forePC2.BM<-brownie.lite(lep.tree2,fore.pc2*10)
 hindPC2.BM<-brownie.lite(lep.tree2,hind.pc2*10)
-
+#Compare PC1 wing evolutionary rates
 forePC1.BM$sig2.single
+hindPC1.BM$sig2.single
+
+#Compare PC2 wing evolutionary rates
+forePC2.BM$sig2.single
+hindPC2.BM$sig2.single
 
 #Shifts in evolutionary rate
 library(RRphylo)
