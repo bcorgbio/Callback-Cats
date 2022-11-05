@@ -279,7 +279,9 @@ hindPC1.res <- plot_SS(lep.tree2,hindPC1.SS,tax = tax.names)
 hindPC1.res$plot
 
 hindPC1.res$res
+forePC1.res <- plot_SS(lep.tree2,forePC1.SS,tax = tax.names)
 #^indicates what clades/lineages underwent shift, scale of shift
+
 
 #Shape evolution correlation
 #PC1
