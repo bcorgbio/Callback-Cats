@@ -39,7 +39,7 @@ Roughly 200 species of Lepidoptera
 ### Shape evolution correlation
 
 # Results
-###Evolutionary Rates
+#### Evolutionary Rates
 ```{r,"Setting up", include=FALSE }
 library(tidyverse)
 library(Momocs)
@@ -207,7 +207,131 @@ hindPC2.BM$sig2.single
 ```
 Using the "noncensored test," analysis showed that the rates of wing-shape evolution between the fore- and hindwings were different. In PC1, the difference was 0.003606043 units. In PC2, the difference was 0.016297642 units. 
 
-###Evolutionary Rate Shifts
+#### Evolutionary Rate Shifts
+```{r, include=FALSE}
+library(RRphylo)
+hindPC1.RR <- RRphylo(tree=lep.tree2,y=hind.pc1)
+hindPC1.SS<- search.shift(RR=hindPC1.RR,status.type="clade")
+```
+```{r, include=FALSE}
+hindPC1.plot <- plotShift(RR=hindPC1.RR,SS=hindPC1.SS)
+
+forePC1.plot <- plotShift(RR=hindPC1.RR,SS=hindPC1.SS)
+
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("ggtree")
+
+library(ggtree)
+library(wesanderson)
+
+plot_SS <- function(tre=NULL,SS=NULL,tax=NULL){
+  
+
+  nodes <- as.numeric(rownames(SS$single.clades))
+  
+  pal <- wes_palette("Zissou1",n=length(nodes))
+  sp <- list()
+  for(i in nodes){
+    sp.i <- extract.clade(tre,i)$tip.label
+    
+    #print(head(tax))
+    sub.names <- lapply(tax,function(x) x[x%in%sp.i]) 
+    
+    in.clades <- lapply(sub.names,function(x) length(x)>0) 
+    all.of.clade <- lapply(sub.names,function(x) all(sapply(sp.i,function(z) z%in%x))) 
+    
+    high.clade <- names(sub.names)[last(which(all.of.clade==T))]
+    all.clades <- names(sub.names)[which(in.clades==T)]
+    crown <- ""
+    if(high.clade!=last(names(sub.names))) crown <- "crown-"
+    
+    sub.clades <- NULL
+    if(length(grepl("oidea",all.clades))>0) sub.clades <- all.clades[grepl("oidea",all.clades)]
+
+    high.clade2 <- paste0(crown,high.clade,": ",paste0(sub.clades,collapse = "+"))
+    sp[[paste0(i)]] <- tibble(n=i,species=sp.i,clade=high.clade2)
+    
+  }
+
+  
+  d <- do.call(rbind,sp)%>% 
+    rename(label=species) 
+  
+  d2<- d %>% rename(clade_name=clade) 
+  
+  p <- ggtree(tre)+ scale_y_reverse()
+  
+  p$data <- p$data %>% left_join(d) %>% left_join(tibble(node=nodes,SS$single.clades) %>% mutate(shift=ifelse(rate.difference>0,"+","-")))
+  
+  p <-  p+geom_tiplab(aes(col=clade),geom="text",size=1.2)+
+    geom_cladelab(data=d2,mapping=aes(node=n,col=clade_name,label=clade_name),offset=1,size=1.5)+
+    geom_hilight(data=d2,mapping = aes(node = n,fill=clade_name),alpha = 0.01)+
+    scale_fill_manual(values = pal)+
+    scale_color_manual(values = pal)+
+    theme(legend.position = "none")+geom_nodepoint(mapping=aes(subset = shift =="-"), size=5, shape=25,fill='blue',color='blue',alpha=0.7)+
+    geom_nodepoint(mapping=aes(subset = shift =="+"), size=5, shape=24, fill='red',color='red',alpha=0.7)
+  p <- p+xlim(NA,6)
+  res <- tibble(n=nodes,SS$single.clades) %>% left_join(d %>% select(n,clade) %>% unique)
+  
+  return(list(plot=p,res=res))
+  
+}
+
+tax.names <- readRDS("Lep_classification.RDS")
+
+hindPC1.res <- plot_SS(lep.tree2,hindPC1.SS,tax = tax.names)
+```
+
+```{r, "Tree with exceptional shift highlighted", echo=FALSE,fig.cap="Lepidoptera phylogenetic tree with lineages with exceptional shifts indicated by a triangle. Blue and downward triangle signifies a low shift."}
+hindPC1.res$plot
+```
+```{r, "Scale of shift", echo=FALSE, fig.cap = "The scale of the shift"}
+hindPC1.res$res
+```
+The Macroheterocera clade, specifically the Noctuoidea family underwent a significant shift in evolutionary rate, with a slowdown of -0.00194 units. 
+
+#### Correlation of wing shape evolution
+```{r, "PC1", include=FALSE}
+#PC1
+hindPC1.pic <- pic(hind.pc1,phy = lep.tree2)
+forePC1.pic <- pic(fore.pc1,phy = lep.tree2)
+
+PC1.pic <- tibble(
+  hind=hindPC1.pic,
+  fore=forePC1.pic
+)
+```
+```{r, "Regression of transformed PC1 values", message=FALSE, echo=FALSE,fig.cap="Figure 2: Linear regression of PIC-transformed PC1 values"}
+PC1.pic %>% 
+  ggplot(aes(x=fore,y=hind))+geom_point()+geom_smooth(method="lm")
+```
+```{r,echo=FALSE, "Summary of linear model of transformed PC1 values"}
+summary(lm(hind~fore,PC1.pic))
+```
+
+
+```{r,"PC2", include = FALSE}
+#PC2
+hindPC2.pic <- pic(hind.pc2,phy = lep.tree2)
+forePC2.pic <- pic(fore.pc2,phy = lep.tree2)
+
+PC2.pic <- tibble(
+  hind=hindPC2.pic,
+  fore=forePC2.pic
+)
+```
+
+```{r, "Regression of transformed PC2 values", message=FALSE, echo=FALSE, fig.cap="Figure 3: Linear regression of PIC-transformed PC2 values"}
+PC2.pic %>% 
+  ggplot(aes(x=fore,y=hind))+geom_point()+geom_smooth(method="lm")
+```
+```{r,"Summary of linear model of PC2", echo=FALSE}
+summary(lm(hind~fore,PC2.pic))
+```
+
+Analysis of fore- and hindwing PC1 shows that they are correlated. The p-value is very close to zero, indicating a significant relationship. Additionally, the R-squared value is 0.44. However, fore- and hindwing PC2s are not correlated. The p-value is 0.4121 and R-squared value is very low. 
 
 
 # Discussion
