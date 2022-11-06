@@ -187,8 +187,9 @@ names(fore.pc2) <-  forewing.pca2 %>%
   summarize(PC2=mean(PC2)) %>% 
   pull(species)
 ```
-Finding evolutionary rates for fore- and hindwing PCs.
+
 ```{r, "Find evolutionary rates for fore- and hindwing PCs",message=FALSE,results=FALSE}
+#Finding evolutionary rates for fore- and hindwing PCs
 library(phytools)
 forePC1.BM<-brownie.lite(lep.tree2,fore.pc1*10)
 hindPC1.BM<-brownie.lite(lep.tree2,hind.pc1*10)
@@ -284,7 +285,7 @@ tax.names <- readRDS("Lep_classification.RDS")
 hindPC1.res <- plot_SS(lep.tree2,hindPC1.SS,tax = tax.names)
 ```
 
-```{r, "Tree with exceptional shift highlighted", echo=FALSE,fig.cap="Lepidoptera phylogenetic tree with lineages with exceptional shifts indicated by a triangle. Blue and downward triangle signifies a low shift."}
+```{r, "Tree with exceptional shift highlighted", echo=FALSE,fig.cap="Figure 1: Lepidoptera phylogenetic tree with lineages with exceptional shifts indicated by a triangle. Blue and downward triangle signifies a low shift."}
 hindPC1.res$plot
 ```
 ```{r, "Scale of shift", echo=FALSE, fig.cap = "The scale of the shift"}
