@@ -39,6 +39,7 @@ Roughly 200 species of Lepidoptera
 ### Shape evolution correlation
 
 # Results
+###Evolutionary Rates
 ```{r,"Setting up", include=FALSE }
 library(tidyverse)
 library(Momocs)
@@ -186,7 +187,8 @@ names(fore.pc2) <-  forewing.pca2 %>%
   summarize(PC2=mean(PC2)) %>% 
   pull(species)
 ```
-```{r, "Find evolutionary rates for fore- and hindwing PCs",include=FALSE}
+Finding evolutionary rates for fore- and hindwing PCs.
+```{r, "Find evolutionary rates for fore- and hindwing PCs",message=FALSE,results=FALSE}
 library(phytools)
 forePC1.BM<-brownie.lite(lep.tree2,fore.pc1*10)
 hindPC1.BM<-brownie.lite(lep.tree2,hind.pc1*10)
@@ -203,8 +205,9 @@ hindPC1.BM$sig2.single
 forePC2.BM$sig2.single
 hindPC2.BM$sig2.single
 ```
-
 Using the "noncensored test," analysis showed that the rates of wing-shape evolution between the fore- and hindwings were different. In PC1, the difference was 0.003606043 units. In PC2, the difference was 0.016297642 units. 
+
+###Evolutionary Rate Shifts
 
 
 # Discussion
