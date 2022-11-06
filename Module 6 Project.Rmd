@@ -40,7 +40,14 @@ Roughly 200 species of Lepidoptera
 
 # Results
 Using the "noncensored test," analysis showed that the rates of wing-shape evolution between the fore- and hindwings were different. In PC1, the difference was 0.003606043 units. In PC2, the difference was 0.016297642 units. 
-```{r}
+```{r,"Setting up", include=FALSE }
+library(tidyverse)
+library(Momocs)
+
+f <- list.files("class_out_data",pattern=".txt|.csv",full.names = TRUE)
+
+out <- read_delim(f[1],delim="\t") %>% 
+  as.matrix()
 #make a large df with vroom
 out.df <- vroom::vroom(f, id = "filename")
 
@@ -64,7 +71,56 @@ hindwings <- outs %>%
   filter(wing=="hindwing")
 ```
 
-```{r, "Load tree, drop tips not in PCA data"}
+```{r, "Procrustes and perform EFA", include=FALSE}
+fore.min <- forewings %>% 
+  coo_nb() %>% 
+  min()
+
+hind.min <- hindwings %>% 
+  coo_nb() %>% 
+  min()
+
+#Perform EFA
+forewings %>%
+  coo_interpolate(fore.min) %>% 
+  coo_align()  %>%
+  fgProcrustes() %>% 
+  efourier(norm=FALSE) 
+
+hindwings %>% 
+   coo_interpolate(hind.min) %>% 
+   coo_align()  %>%
+  fgProcrustes() %>% 
+  efourier(norm=FALSE) 
+```
+
+```{r, "Performing PCA"}
+forewing.pca <- forewings %>%
+  coo_interpolate(fore.min) %>%
+  coo_align()  %>%
+  coo_slide(id=1) %>% 
+  fgProcrustes() %>% 
+  efourier(norm=FALSE) %>% 
+  PCA()
+
+hindwing.pca <-hindwings %>% 
+  coo_interpolate(hind.min) %>% 
+  coo_align()  %>%
+  coo_slide(id=1) %>% 
+  fgProcrustes() %>% 
+  efourier(norm=FALSE) %>% 
+  PCA()
+
+hindwings %>% 
+  coo_interpolate(hind.min) %>% 
+  coo_align()  %>%
+  coo_slide(id=1) %>% 
+  fgProcrustes() %>% 
+  stack
+```
+
+
+```{r, "Load tree, drop tips not in PCA data", include=FALSE}
 library(ape)
 
 lep.tree <- ape::read.tree("lep_tree2.tre")
@@ -72,6 +128,7 @@ lep.tree <- ladderize(lep.tree)
 plot(lep.tree,cex=0.1)
 lep.tree$tip.label <- gsub("_"," ",lep.tree$tip.label)
 basename(names(outs))[1:5]
+lep.sp <- read_csv("lep_image_data.csv")
 ```
 ```{r, "Fore- and hindwing PC1 and PC2 stored with species information"}
 out.data <- tibble(xy.file=basename(names(outs))) %>% 
@@ -82,7 +139,7 @@ hindwing.pca2 <-  tibble(xy.file=basename(rownames(hindwing.pca$x)),PC1=hindwing
 forewing.pca2 <-  tibble(xy.file=basename(rownames(forewing.pca$x)),PC1=forewing.pca$x[,1],PC2=forewing.pca$x[,2])%>% 
   left_join(out.data)
 ```
-```{r}
+```{r, include=FALSE}
 drops <- lep.tree$tip.label[!lep.tree$tip.label%in%unique(out.data$species)]
 lep.tree2 <- drop.tip(lep.tree,drops)
 
@@ -136,13 +193,15 @@ names(fore.pc2) <-  forewing.pca2 %>%
   summarize(PC2=mean(PC2)) %>% 
   pull(species)
 ```
-```{r, "Find evolutionary rates for fore- and hindwing PCs"}
+```{r, "Find evolutionary rates for fore- and hindwing PCs",include=FALSE}
 library(phytools)
 forePC1.BM<-brownie.lite(lep.tree2,fore.pc1*10)
 hindPC1.BM<-brownie.lite(lep.tree2,hind.pc1*10)
 
 forePC2.BM<-brownie.lite(lep.tree2,fore.pc2*10)
 hindPC2.BM<-brownie.lite(lep.tree2,hind.pc2*10)
+```
+```{r, "Comparing PC wing evolutionary rates"}
 #Compare PC1 wing evolutionary rates
 forePC1.BM$sig2.single
 hindPC1.BM$sig2.single
@@ -151,6 +210,7 @@ hindPC1.BM$sig2.single
 forePC2.BM$sig2.single
 hindPC2.BM$sig2.single
 ```
+
 Using the "noncensored test," analysis showed that the rates of wing-shape evolution between the fore- and hindwings were different. In PC1, the difference was 0.003606043 units. In PC2, the difference was 0.016297642 units. 
 
 
