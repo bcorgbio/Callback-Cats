@@ -8,6 +8,9 @@ bibliography: BIOL3140.bib
 
 
 # Introduction
+The importance of studying wing morphology (whether that be the size, shape, or pigmentation) is that it can aid in the study of taxonomy and evolution across lepidoptera. Past research articles, including @Strauss1990patterns, have shown morphometric variation in forewing and hindwing, specifically in studies on heliconia and ithomiine butterflies. Similar to this research study, we began by digitizing the wings along a metric scale bar. Aerodynamic constraints are one possible reason suggesting greater variability in shape differences from anterior to posterior along the wing. These aerodynamic factors include wing load and muscle development. Another study, @Owens2020comparative, showed that for swallowtails, the forewing shape and size showed stronger phylogenetic signals but evolved more slowly than the respective measures for the hindwing. This study suggested that forewings and hindwings have evolved independently from each other. The different selective pressures may be due to stabilizing selection imposed by dependence on forewings for flight, mimicry, and predation interactions.
+
+We seek to answer three specific questions pertaining to wing-shape evolution across the lepidoptera, an order that includes species from both moths and butterflies. First, do fore- and hindwings vary in their evolutionary rates? Second, does the evolvability of the hind- and forewings vary significantly among major lineages of the lepidoptera? Finally, is there any correlation in forewing and hindwing shape? Our investigation implemented a morphometric approach, in which the wing shape outlines of around 200 Lepidoptera species were characerized. 
 
 <center>
 ![Forewing and Hindwing of Different Lepidoptera, Image from @patil2017insight ](https://d3i71xaburhd42.cloudfront.net/729040e948cb87d9f90e5573c731964d6b673146/7-Figure9-1.png){width=40%}
@@ -326,10 +329,10 @@ By comparing PC1 values, the difference in the rates of wing-shape evolution sho
 
 # Author Contributions
 
-Clare Mungovan: 
+All members were involved in digitizing wing shape outlines using FIJI and running code in R for analysis. Clare Mungovan: wrote the Discussions section.
 Adam Qu: formatted and reported data in the Results section.
 Matteo Torquati: 
-Julie Vu: 
+Julie Vu: wrote the Introduction to the report.
 
 
 # References
