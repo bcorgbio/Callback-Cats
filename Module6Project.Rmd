@@ -28,22 +28,14 @@ library(rgbif)
 ```
 
 #### Digitization
+Shape analysis was based on the outline of the hind- and fore-wings of ~200 species of Lepidoptera. The image analysis program FIJI was used to outline the wings. A spline was fit on all hind- and fore-wings.
 
-Roughly 200 species of Lepidoptera
 
 #### Shape analysis
 
-#### Comparative analysis
+For the shape analysis, Elliptical Fourier analysis (EFA) was use. EFA collects variables that describes the shapes in the data set as a series of ellipses. Before performing EFA, first the forewing and hindwing were separated in different data sets. Next the issue of arbitrary size differences was addressed by using the Procrustes transformation. Principal Components Analysis (PCA) was then used to distill the EFA data into a set of fewer variables that describe the important variance among the wings. PCA analyzes the digitized files and distills the variables to a set of fewer variables by creating 2 vectors. PC1 is the first vector and accounts for the most variance within the data set. PC2 is the second vector and accounts for the second most variance. The analysis showed a biplot of the first two PCs, the amount of variance explained by each, and a representation of the morpho shape.
 
-#### Evolutionary rates
-
-#### Shifts in evolutionary rates
-
-#### Shape evolution correlation
-
-# Results
-#### Evolutionary Rates
-```{r,"Setting up", include=FALSE }
+```{r,"Setting up for Shape Analysis", message = FALSE, results= FALSE}
 library(tidyverse)
 library(Momocs)
 
@@ -80,10 +72,9 @@ fore.min <- forewings %>%
 hind.min <- hindwings %>% 
   coo_nb() %>% 
   min()
-```
+``` 
 
-
-```{r, "Preparing for comparative analysis", results=FALSE, message=FALSE}
+```{r, "Preparing for comparative analysis", results = FALSE, message = FALSE}
 #Performing Procrustes transformation, EFA, and PCA
 forewing.pca <- forewings %>%
   coo_interpolate(fore.min) %>%
@@ -100,20 +91,32 @@ hindwing.pca <-hindwings %>%
   fgProcrustes() %>% 
   efourier(norm=FALSE) %>% 
   PCA()
-```
+
+hindwings %>% 
+   coo_interpolate(hind.min) %>% 
+   coo_align()  %>%
+   coo_slide(id=1) %>% 
+  fgProcrustes() %>% 
+  stack
+``` 
 
 
-```{r, "Load tree, drop tips not in PCA data", include=FALSE}
+#### Comparative analysis
+
+
+PC scores were first used to analyze the evolutionary rate for the hind and forewing. Species information was also added to the PCA data.
+```{r, "Comparative analysis", results = FALSE, message = FALSE, echo=FALSE}
 library(ape)
 
 lep.tree <- ape::read.tree("lep_tree2.tre")
 lep.tree <- ladderize(lep.tree)
-plot(lep.tree,cex=0.1)
+
 lep.tree$tip.label <- gsub("_"," ",lep.tree$tip.label)
 basename(names(outs))[1:5]
 lep.sp <- read_csv("lep_image_data.csv")
 ```
-```{r, "Fore- and hindwing PC1 and PC2 stored with species information",include=FALSE}
+
+```{r, "Fore- and hindwing PC1 and PC2 stored with species information",results = FALSE, message = FALSE}
 out.data <- tibble(xy.file=basename(names(outs))) %>% 
   mutate(identifier=gsub("XY_|_hindwing|_forewing|.txt","",xy.file)) %>% 
   left_join(lep.sp)
@@ -122,7 +125,14 @@ hindwing.pca2 <-  tibble(xy.file=basename(rownames(hindwing.pca$x)),PC1=hindwing
 forewing.pca2 <-  tibble(xy.file=basename(rownames(forewing.pca$x)),PC1=forewing.pca$x[,1],PC2=forewing.pca$x[,2])%>% 
   left_join(out.data)
 ```
-```{r, include=FALSE}
+
+
+#### Evolutionary rates
+
+
+We  then examined the evolutionary rates of the PC scores across a Lepidopteran  phylogentic tree from the @kawahara2019phylogenomics study.
+
+```{r, results = FALSE, message = FALSE}
 drops <- lep.tree$tip.label[!lep.tree$tip.label%in%unique(out.data$species)]
 lep.tree2 <- drop.tip(lep.tree,drops)
 
@@ -177,34 +187,17 @@ names(fore.pc2) <-  forewing.pca2 %>%
   pull(species)
 ```
 
-```{r, "Wing PC evolutionary rates",message=FALSE,results=FALSE}
-#Finding evolutionary rates for fore- and hindwing PCs
-library(phytools)
-forePC1.BM<-brownie.lite(lep.tree2,fore.pc1*10)
-hindPC1.BM<-brownie.lite(lep.tree2,hind.pc1*10)
 
-forePC2.BM<-brownie.lite(lep.tree2,fore.pc2*10)
-hindPC2.BM<-brownie.lite(lep.tree2,hind.pc2*10)
-```
+#### Shifts in evolutionary rates
 
-```{r, "Comparing PC wing evolutionary rates"}
-#Compare PC1 wing evolutionary rates
-forePC1.BM$sig2.single
-hindPC1.BM$sig2.single
+Phylogenetic ridge regression was used to detrmine  whether major groups of the Lepidoptera have undergone significant changes in the rate of wing-shape evolution. 
 
-#Compare PC2 wing evolutionary rates
-forePC2.BM$sig2.single
-hindPC2.BM$sig2.single
-```
-Using the "noncensored test," analysis showed that the rates of wing-shape evolution between the fore- and hindwings were different. In PC1, the difference was 0.003606043 units. In PC2, the difference was 0.016297642 units. 
-
-#### Evolutionary Rate Shifts
-```{r, include=FALSE}
+```{r, results = FALSE, message = FALSE}
 library(RRphylo)
 hindPC1.RR <- RRphylo(tree=lep.tree2,y=hind.pc1)
 hindPC1.SS<- search.shift(RR=hindPC1.RR,status.type="clade")
 ```
-```{r, include=FALSE}
+```{r, results = FALSE, message = FALSE}
 hindPC1.plot <- plotShift(RR=hindPC1.RR,SS=hindPC1.SS)
 
 forePC1.plot <- plotShift(RR=hindPC1.RR,SS=hindPC1.SS)
@@ -273,16 +266,11 @@ tax.names <- readRDS("Lep_classification.RDS")
 hindPC1.res <- plot_SS(lep.tree2,hindPC1.SS,tax = tax.names)
 ```
 
-```{r, "Tree with exceptional shift highlighted",echo=FALSE,fig.cap="Figure 1: Lepidoptera phylogenetic tree with lineages with exceptional shifts indicated by a triangle. Blue and downward triangle signifies a low shift."}
-hindPC1.res$plot
-```
-```{r, "Scale of shift", echo=FALSE, fig.cap = "The scale of the shift"}
-hindPC1.res$res
-```
-The Macroheterocera clade, specifically the Noctuoidea family underwent a significant shift in evolutionary rate, with a slowdown of -0.00194 units. 
+#### Shape evolution correlation
 
-#### Correlation of wing shape evolution
-```{r, "PC1", include=FALSE}
+Phylogenetic independent contrasts (PIC) analysis was used to determine whether hind- and forewing shape evolution is correlated.
+
+```{r, "PC1", results = FALSE, message = FALSE}
 #PC1
 hindPC1.pic <- pic(hind.pc1,phy = lep.tree2)
 forePC1.pic <- pic(fore.pc1,phy = lep.tree2)
@@ -292,15 +280,8 @@ PC1.pic <- tibble(
   fore=forePC1.pic
 )
 ```
-```{r, "Regression of transformed PC1 values", message=FALSE, echo=FALSE,fig.cap="Figure 2: Linear regression of PIC-transformed PC1 values"}
-PC1.pic %>% 
-  ggplot(aes(x=fore,y=hind))+geom_point()+geom_smooth(method="lm")
-```
-```{r,echo=FALSE, "Summary of linear model of transformed PC1 values"}
-summary(lm(hind~fore,PC1.pic))
-```
 
-```{r,"PC2", include = FALSE}
+```{r,"PC2", results = FALSE, message = FALSE}
 #PC2
 hindPC2.pic <- pic(hind.pc2,phy = lep.tree2)
 forePC2.pic <- pic(fore.pc2,phy = lep.tree2)
@@ -309,6 +290,58 @@ PC2.pic <- tibble(
   hind=hindPC2.pic,
   fore=forePC2.pic
 )
+```
+
+# Results
+
+#### Evolutionary Rates
+
+```{r, "Load tree, drop tips not in PCA data", results = FALSE, message = FALSE}
+
+plot(lep.tree,cex=0.1)
+
+```
+
+
+```{r, "Wing PC evolutionary rates",message=FALSE,results=FALSE}
+#Finding evolutionary rates for fore- and hindwing PCs
+library(phytools)
+forePC1.BM<-brownie.lite(lep.tree2,fore.pc1*10)
+hindPC1.BM<-brownie.lite(lep.tree2,hind.pc1*10)
+
+forePC2.BM<-brownie.lite(lep.tree2,fore.pc2*10)
+hindPC2.BM<-brownie.lite(lep.tree2,hind.pc2*10)
+```
+
+```{r, "Comparing PC wing evolutionary rates"}
+#Compare PC1 wing evolutionary rates
+forePC1.BM$sig2.single
+hindPC1.BM$sig2.single
+
+#Compare PC2 wing evolutionary rates
+forePC2.BM$sig2.single
+hindPC2.BM$sig2.single
+```
+Using the "noncensored test," analysis showed that the rates of wing-shape evolution between the fore- and hindwings were different. In PC1, the difference was 0.003606043 units. In PC2, the difference was 0.016297642 units. 
+
+#### Evolutionary Rate Shifts
+
+```{r, "Tree with exceptional shift highlighted",echo=FALSE,fig.cap="Figure 1: Lepidoptera phylogenetic tree with lineages with exceptional shifts indicated by a triangle. Blue and downward triangle signifies a low shift."}
+hindPC1.res$plot
+```
+```{r, "Scale of shift", echo=FALSE, fig.cap = "The scale of the shift"}
+hindPC1.res$res
+```
+The Macroheterocera clade, specifically the Noctuoidea family underwent a significant shift in evolutionary rate, with a slowdown of -0.00194 units. 
+
+#### Correlation of wing shape evolution
+
+```{r, "Regression of transformed PC1 values", message=FALSE, echo=FALSE,fig.cap="Figure 2: Linear regression of PIC-transformed PC1 values"}
+PC1.pic %>% 
+  ggplot(aes(x=fore,y=hind))+geom_point()+geom_smooth(method="lm")
+```
+```{r,echo=FALSE, "Summary of linear model of transformed PC1 values"}
+summary(lm(hind~fore,PC1.pic))
 ```
 
 ```{r, "Regression of transformed PC2 values", message=FALSE, echo=FALSE, fig.cap="Figure 3: Linear regression of PIC-transformed PC2 values"}
@@ -331,7 +364,7 @@ By comparing PC1 values, the difference in the rates of wing-shape evolution sho
 
 All members were involved in digitizing wing shape outlines using FIJI and running code in R for analysis. Clare Mungovan: wrote the Discussions section.
 Adam Qu: formatted and reported data in the Results section.
-Matteo Torquati: 
+Matteo Torquati: wrote the Methods to the report
 Julie Vu: wrote the Introduction to the report.
 
 
