@@ -16,7 +16,7 @@ bibliography: BIOL3140.bib
 
 
 
-### Image acquisition
+#### Image acquisition
 
 All images of the Lepidoptera were pulled from the Global Biodiversity Information Facility (GBIF), a clearing house of collections and species information. GBIF have created an R package, [rgif](https://www.gbif.org/tool/81747/rgbif), that allows access to GBIF’s application programming interface (API).This packages allows their records to be searchable from the command line.
 
@@ -24,19 +24,19 @@ All images of the Lepidoptera were pulled from the Global Biodiversity Informati
 library(rgbif) 
 ```
 
-### Digitization
+#### Digitization
 
 Roughly 200 species of Lepidoptera
 
-### Shape analysis
+#### Shape analysis
 
-### Comparative analysis
+#### Comparative analysis
 
-### Evolutionary rates
+#### Evolutionary rates
 
-### Shifts in evolutionary rates
+#### Shifts in evolutionary rates
 
-### Shape evolution correlation
+#### Shape evolution correlation
 
 # Results
 #### Evolutionary Rates
@@ -69,9 +69,7 @@ forewings <- outs %>%
 
 hindwings <- outs %>% 
   filter(wing=="hindwing")
-```
 
-```{r, "Procrustes and perform EFA", include=FALSE}
 fore.min <- forewings %>% 
   coo_nb() %>% 
   min()
@@ -79,22 +77,11 @@ fore.min <- forewings %>%
 hind.min <- hindwings %>% 
   coo_nb() %>% 
   min()
-
-#Perform EFA
-forewings %>%
-  coo_interpolate(fore.min) %>% 
-  coo_align()  %>%
-  fgProcrustes() %>% 
-  efourier(norm=FALSE) 
-
-hindwings %>% 
-   coo_interpolate(hind.min) %>% 
-   coo_align()  %>%
-  fgProcrustes() %>% 
-  efourier(norm=FALSE) 
 ```
 
-```{r, "Performing PCA", results=FALSE, message=FALSE}
+
+```{r, "Preparing for comparative analysis", results=FALSE, message=FALSE}
+#Performing Procrustes transformation, EFA, and PCA
 forewing.pca <- forewings %>%
   coo_interpolate(fore.min) %>%
   coo_align()  %>%
@@ -110,7 +97,6 @@ hindwing.pca <-hindwings %>%
   fgProcrustes() %>% 
   efourier(norm=FALSE) %>% 
   PCA()
-
 ```
 
 
@@ -188,7 +174,7 @@ names(fore.pc2) <-  forewing.pca2 %>%
   pull(species)
 ```
 
-```{r, "Find evolutionary rates for fore- and hindwing PCs",message=FALSE,results=FALSE}
+```{r, "Wing PC evolutionary rates",message=FALSE,results=FALSE}
 #Finding evolutionary rates for fore- and hindwing PCs
 library(phytools)
 forePC1.BM<-brownie.lite(lep.tree2,fore.pc1*10)
@@ -197,6 +183,7 @@ hindPC1.BM<-brownie.lite(lep.tree2,hind.pc1*10)
 forePC2.BM<-brownie.lite(lep.tree2,fore.pc2*10)
 hindPC2.BM<-brownie.lite(lep.tree2,hind.pc2*10)
 ```
+
 ```{r, "Comparing PC wing evolutionary rates"}
 #Compare PC1 wing evolutionary rates
 forePC1.BM$sig2.single
@@ -229,7 +216,6 @@ library(wesanderson)
 
 plot_SS <- function(tre=NULL,SS=NULL,tax=NULL){
   
-
   nodes <- as.numeric(rownames(SS$single.clades))
   
   pal <- wes_palette("Zissou1",n=length(nodes))
@@ -256,7 +242,6 @@ plot_SS <- function(tre=NULL,SS=NULL,tax=NULL){
     
   }
 
-  
   d <- do.call(rbind,sp)%>% 
     rename(label=species) 
   
@@ -285,7 +270,7 @@ tax.names <- readRDS("Lep_classification.RDS")
 hindPC1.res <- plot_SS(lep.tree2,hindPC1.SS,tax = tax.names)
 ```
 
-```{r, "Tree with exceptional shift highlighted", echo=FALSE,fig.cap="Figure 1: Lepidoptera phylogenetic tree with lineages with exceptional shifts indicated by a triangle. Blue and downward triangle signifies a low shift."}
+```{r, "Tree with exceptional shift highlighted",echo=FALSE,fig.cap="Figure 1: Lepidoptera phylogenetic tree with lineages with exceptional shifts indicated by a triangle. Blue and downward triangle signifies a low shift."}
 hindPC1.res$plot
 ```
 ```{r, "Scale of shift", echo=FALSE, fig.cap = "The scale of the shift"}
@@ -312,7 +297,6 @@ PC1.pic %>%
 summary(lm(hind~fore,PC1.pic))
 ```
 
-
 ```{r,"PC2", include = FALSE}
 #PC2
 hindPC2.pic <- pic(hind.pc2,phy = lep.tree2)
@@ -332,7 +316,7 @@ PC2.pic %>%
 summary(lm(hind~fore,PC2.pic))
 ```
 
-Analysis of fore- and hindwing PC1 shows that they are correlated. The p-value is very close to zero, indicating a significant relationship. Additionally, the R-squared value is 0.44. However, fore- and hindwing PC2s are not correlated. The p-value is 0.4121 and R-squared value is very low. 
+Analysis of fore- and hindwing PC1 shows that they are correlated. The p-value is very close to zero, indicating a significant relationship. Additionally, the R-squared value is 0.44. However, fore- and hindwing PC2s are not correlated. The p-value is 0.4121 and the R-squared value is very low. 
 
 
 # Discussion
@@ -341,7 +325,7 @@ Analysis of fore- and hindwing PC1 shows that they are correlated. The p-value i
 # Author Contributions
 
 Clare Mungovan: 
-Adam Qu: 
+Adam Qu: formatted and reported data in the Results section.
 Matteo Torquati: 
 Julie Vu: 
 
