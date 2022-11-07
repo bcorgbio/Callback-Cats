@@ -190,7 +190,7 @@ names(fore.pc2) <-  forewing.pca2 %>%
 
 #### Shifts in evolutionary rates
 
-Phylogenetic ridge regression was used to detrmine  whether major groups of the Lepidoptera have undergone significant changes in the rate of wing-shape evolution. 
+Phylogenetic ridge regression was used to determine  whether major groups of the Lepidoptera have undergone significant changes in the rate of wing-shape evolution. 
 
 ```{r, results = FALSE, message = FALSE}
 library(RRphylo)
@@ -296,7 +296,7 @@ PC2.pic <- tibble(
 
 #### Evolutionary Rates
 
-```{r, "Load tree, drop tips not in PCA data", results = FALSE, message = FALSE}
+```{r, "Load tree, drop tips not in PCA data", results = FALSE, message = FALSE, fig.cap="The Lepidopteran phylogenetic tree"}
 
 plot(lep.tree,cex=0.1)
 
@@ -358,7 +358,7 @@ Analysis of fore- and hindwing PC1 shows that they are correlated. The p-value i
 # Discussion
 The Lepidoptera play an important role in terrestrial ecosystems, and use paired wings to fly in search of places to eat, reproduce, etc. These paired wings consist of a forewing and a hindwing that consequently have their own evolutionary rates. It has been sugguested that forewing shape and size may be the result of stabilizing selection due to the physical requirements of flight, and hindwing shape is due to differential survival and reproduction of individuals due to differences in phenotype (Sourakov 2013, Barber et al. 2015, Willmott et al. 2017, Rubin et al. 2018, Chazot et al. 2016)
 
-By comparing PC1 values, the difference in the rates of wing-shape evolution showed hindwing values were about 0.0036 higher than forewing PC1. In PC2, the difference was about 0.0163 where hindwings were also higher. In a previous study (@Owens2020comparative), it was deduced that the phylogenetic signal is stronger in the forewing compared to the hindwing. This was demonstrated by much higher hindwing shape variation compared with forewings in ithomiine and heliconiine butterflies. In our study, the Macroheterocera clade, specifically the Noctuoidea family, underwent the most significant shift in evolutionary rate, with a slowdown of -0.00194 units. Furthermore, analysis of forewing and hindwing PC1 shows correlation as the p- and R-squared values indicate a significant relationship. The R-squared here shows that close to half of the trend in PC1 values can be explained by the line plotted in Figure 1. However, forewing and hindwing PC2s are not correlated because the p-value is 0.4121 and R-squared value is very low…
+By comparing PC1 values, the difference in the rates of wing-shape evolution showed hindwing values were about 0.0036 higher than forewing PC1. In PC2, the difference was about 0.0163 where hindwings were also higher. In a previous study (@Owens2020comparative), it was deduced that the phylogenetic signal is stronger in the forewing compared to the hindwing. This was demonstrated by much higher hindwing shape variation compared with forewings in ithomiine and heliconiine butterflies. In our study, the Macroheterocera clade, specifically the Noctuoidea family, underwent the most significant shift in evolutionary rate, with a slowdown of -0.00194 units. Furthermore, analysis of forewing and hindwing PC1 shows correlation as the p- and R-squared values indicate a significant relationship. The R-squared here shows that close to half of the trend in PC1 values can be explained by the line plotted in Figure 1. However, forewing and hindwing PC2s are not correlated because the p-value is 0.4121 and R-squared value is very low.Overall, hindwings evolve at a faster rate than forewings, and the PC1 values suggest there is correlation between the evolution of these appendages. This is important as it pertains to wing shape evolution to determine the cause of the differing evolutionary rates and the effect this has on specific species.
 
 # Author Contributions
 
