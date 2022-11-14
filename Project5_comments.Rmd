@@ -1,0 +1,94 @@
+---
+title: "Project 5"
+author: "Callback Cats"
+date: "2022-10-10"
+output: html_document
+bibliography: cats.bib
+---
+
+<!-- for comments -->
+<style>
+div.comment pre { background-color:#ffbbbb; }
+div.comment pre.r { background-color:#ffbbbb; }
+div.comment {color: red;}
+</style>
+
+# Introduction
+
+Thermoregulation is the ability of an organism to regulate their temperature within certain parameters. Internal thermoregulation is known as homeostasis which is a dynamic stability that plays an important role during physical exercise and periods of rest. The previous study, @hagey2017there, discusses the complexity of thermoregulation in humans, and the regulation of body temperature during physical exertion. When human subjects increase their activity from sedentary to active, there is a decrease in skin temperature due to an increase in perspiration.  production.
+
+
+# Methods
+
+An Arduino-based temperature recording system using the DHT11 sensor was implemented to record body temperatures of subjects over a 100 second period at two different intervals, once during the subject’s resting state and again after 5 minutes of activity (jumping jacks). The data captured for each subject was saved in a CSV file that was then loaded into R for analysis. Mean temperatures for each subject were plotted and combined into one figure for comparison of activity temperatures between subjects.
+
+![A jumping jack](https://www.sparkpeople.com/assets/exercises/Jumping-Jacks.gif){width=40%}           
+
+### Loading the Data and Tidyverse
+```{r, message = FALSE}
+library(tidyverse) 
+dat.f <- list.files(pattern = "couch|active.csv")    #find the files
+```
+
+### Combine the active and couch data into a list
+```{r,message = FALSE}
+
+dat.l <- list()   
+#make an empty list
+
+for(i in dat.f){
+  met.dat<- unlist(strsplit(i,"_"))                                                  
+  #split of the filename string
+  who <- met.dat[1]                                                                     
+  #store the first element
+  activity <- gsub(".csv","",met.dat[2])                                        
+  #store second element, dropping CSV with gsub()
+  dat.l[[i]]<- read_csv(i)%>%
+    mutate(who=who,activity=activity)                                       
+  #read, then store data with additional columns of metada in list as position unique to i
+}
+
+dat <- do.call(rbind,dat.l)
+#combine the list into table
+```
+
+
+
+
+# Results
+
+```{r, echo=FALSE, warning = FALSE}
+ggplot(dat, aes(activity, degC)) +
+  geom_boxplot() + facet_grid(.~who) +
+  stat_summary(fun = mean, color = "red") +
+  stat_summary(
+    fun.min = function(x) mean(x) - sd(x), 
+    fun.max = function(x) mean(x) + sd(x), 
+    geom = "errorbar",
+    color = "red",
+    width = .3
+  ) 
+```
+
+
+All subjects saw decreases in body temperature after engaging in physical activity in the form of jumping jacks. Average resting body temperatures ranged from 28°C to just under 36°C, and temperatures dropped by 2-4 degrees after physical activity. It can be concluded that short duration, low intensity aerobic activity produces a slight decrease in body temperature.
+
+# Discussion
+
+The objective of this report is to answer “Does body temperature vary in human subjects according to activity level?” Recordings from the Arduino DHT11 sensor showed the baseline of body temperature when in sedentary position. When group members engaged in physical activity, temperatures decreased. This was congruent with the findings from @hagey2017there that demonstrated how skin temperature varies with physical activity. When transitioning from sedentary to activity, there is an initial reduction in skin temperature as a result of evaporative cooling. As explained in the article, the decreasing temperature is a result of heat dissipating from the active muscles to the skin surface during exercise and it is also related to the redirection of blood flow to active muscles. 
+
+
+# Author Contributions
+
+Data collection was worked on by all members of the team and all members also contributed to proofreading of data, results, and R code.
+Clare Mungovan: Worked on the Introduction section.
+Adam Qu: Described the methods used for this report.
+Matteo Torquati: Put in all the code into Rmd file and formatted it.
+Julie Vu: Worked on the discussion section.
+
+<div class="comment">
+Nice work! This is spot on! 15/15
+</div>
+
+# References
+
