@@ -81,7 +81,7 @@ poly.m4.con <- lm(normF.con~poly(ang.con,4)) #fourth order
 AICc(poly.m2.con,poly.m3.con,poly.m4.con)
 ```
 
-#### The fourth order model fits the best to data because is has the lowest AIC score. 
+#### The fourth order model fits the best to data because it is has the lowest AIC score. 
 
 ```{r, "con pred", message=FALSE}
 
@@ -116,7 +116,7 @@ poly.m4.fat <- lm(normF.fat~poly(ang.fat,4)) #fourth order
 AICc(poly.m2.fat,poly.m3.fat,poly.m4.fat) 
 ```
 
-#### The thirds order model fits to the data the best because is has the lowest AIC score. 
+#### The thirds order model fits to the data the best because it is has the lowest AIC score. 
 
 ```{r, "Fat pred", message=FALSE}
 normF.pred.fat <- predict(poly.m4.fat,newdata = data.frame(ang.fat=x.pred)) #predict the force using 1000 angles
@@ -135,6 +135,7 @@ x.pred[which.max(normF.pred.fat)]-x.pred[which.max(normF.pred.con)]
 
 #### There is a 15.5 degree shift in theta max.
 
+<br>
 
 #### Normative Force vs. Angle of Arm Grouped by Control and Fatigue Conditions 
 ```{r, "overlaying graph",echo=TRUE, results=FALSE, message=FALSE}
