@@ -456,6 +456,8 @@ data &lt;- data%&gt;%
   group_by(sub,exp,ang)%&gt;%
   summarise(max.force=max(abs(Force), na.rm=TRUE), n=n())
 
+data &lt;- na.omit(data)
+
 data.joined &lt;- data%&gt;%
   group_by(sub,exp)%&gt;%
   summarize(max.f2 = max(max.force))%&gt;%
@@ -486,8 +488,8 @@ AICc(poly.m2.con,poly.m3.con,poly.m4.con)</code></pre>
 ## poly.m2.con  4 -1102.575
 ## poly.m3.con  5 -1100.887
 ## poly.m4.con  6 -1103.386</code></pre>
-<div id="the-fourth-order-model-fits-the-best-to-data-because-is-has-the-lowest-aic-score." class="section level4">
-<h4>The fourth order model fits the best to data because is has the
+<div id="the-fourth-order-model-fits-the-best-to-data-because-it-is-has-the-lowest-aic-score." class="section level4">
+<h4>The fourth order model fits the best to data because it is has the
 lowest AIC score.</h4>
 <pre class="r"><code>x.pred&lt;- seq(45,157.5,length.out = 1000) #define 1000 angles from our range
 
@@ -515,9 +517,9 @@ AICc(poly.m2.fat,poly.m3.fat,poly.m4.fat) </code></pre>
 ## poly.m2.fat  4 -919.2917
 ## poly.m3.fat  5 -922.6770
 ## poly.m4.fat  6 -921.3303</code></pre>
-<div id="the-thirds-order-model-fits-to-the-data-the-best-because-is-has-the-lowest-aic-score." class="section level4">
-<h4>The thirds order model fits to the data the best because is has the
-lowest AIC score.</h4>
+<div id="the-thirds-order-model-fits-to-the-data-the-best-because-it-is-has-the-lowest-aic-score." class="section level4">
+<h4>The thirds order model fits to the data the best because it is has
+the lowest AIC score.</h4>
 <pre class="r"><code>normF.pred.fat &lt;- predict(poly.m4.fat,newdata = data.frame(ang.fat=x.pred)) #predict the force using 1000 angles</code></pre>
 </div>
 <div id="normative-force-vs.-angle-of-arm-for-fatigue-conditions" class="section level4">

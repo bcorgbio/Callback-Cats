@@ -49,6 +49,8 @@ data <- data%>%
   group_by(sub,exp,ang)%>%
   summarise(max.force=max(abs(Force), na.rm=TRUE), n=n())
 
+data <- na.omit(data)
+
 data.joined <- data%>%
   group_by(sub,exp)%>%
   summarize(max.f2 = max(max.force))%>%
