@@ -447,21 +447,15 @@ the AICs and fits tables were joined. Next, ANOVA tests were performed
 to test for significant difference of θmax between the control and
 fatigue FL relationships. Lastly, the mean of θmax and standard error of
 the mean was calculated.</p>
-<p>Experimental Protocol:</p>
-<ol style="list-style-type: decimal">
-<li>Construct and program a load-cell data acquisition system.</li>
-<li>Make a goniometer.</li>
-<li>Record isometric MVCs at 12 distinct elbow angles to act as a
-control.</li>
-<li>Eccentrically fatigued our flexors and waited 2 minutes.</li>
-<li>Repeat recording isometric MVCs at the same 12 distinct elbow
-angles.</li>
-<li>Upload data to directory.</li>
-<li>Analyze data to find maximum force (Fmax) for each recording, and to
-find maximum force across all angles for each experiment (control or
+<p>Experimental Protocol: 1. Construct and program a load-cell data
+acquisition system. 2. Make a goniometer. 3. Record isometric MVCs at 12
+distinct elbow angles to act as a control. 4. Eccentrically fatigued our
+flexors and waited 2 minutes. 5. Repeat recording isometric MVCs at the
+same 12 distinct elbow angles. 6. Upload data to directory. 7. Analyze
+data to find maximum force (Fmax) for each recording, and to find
+maximum force across all angles for each experiment (control or
 fatigued) for each individual and then divide all maximum values for
-that experiment by Fmax to calculate θmax .</li>
-</ol>
+that experiment by Fmax to calculate θmax .</p>
 <div id="setting-up-dataset-for-analysis" class="section level4">
 <h4>Setting Up Dataset for Analysis</h4>
 <pre class="r"><code>library(tidyverse)
@@ -674,34 +668,35 @@ control and fatigue conditions.</h4>
 </div>
 <div id="discussion" class="section level1">
 <h1>Discussion</h1>
-<p>In <span class="citation">Maganaris (2001)</span>, the transition
-from 30° of dorsiflexion to 45° of plantarflexion showed the human
-soleus (SOL) muscle fiber length decreased from 3.8 to 2.4cm and
-consequently its force decreased from 3330 to 290 Newtons. Over the same
-range of ankle angles, the tibialis anterior (TA) muscle fiber length
-increased from 3.7 to 6.0cm and its force increased from 157 to 644
-Newtons. Over the longest muscle fiber lengths reached the force of both
-muscles remained approximately constant. These results indicate that the
-intact human SOL and TA muscles operate in the ascending limb and
-plateau region of the typical FL relationship.</p>
+<p>Actin-myosin overlap and maximal isometric force of a sarcomere are
+directly related. In <span class="citation">Maganaris (2001)</span>, the
+transition from 30° of dorsiflexion to 45° of plantarflexion showed the
+human soleus (SOL) muscle fiber length decreased from 3.8 to 2.4
+centimeters and consequently its force decreased from 3330 all the way
+down to 290 Newtons. Over the same range of angles, the tibialis
+anterior (TA) muscle fiber length increased from 3.7 to 6.0 centimeters
+and its force increased from 157 to 644 Newtons. These results indicated
+that the human SOL and TA muscles operate in an ascending limb and
+plateau of a typical FL relationship.</p>
 <p>A graph of the force-length relationship is typically a parabola. The
 center of the parabola indicates the maximum force that is generated.
 Therefore, in a range of angles from 45 degrees to 157 degrees, 100
 degrees is expected to generate the maximum force. It is also expected
 that force will increase from 45 to 100 degrees and then decrease from
-100 to 157 degrees. The class-wide force-angle data showed…&gt; atypical
-FL relationship for both, max force around 145? For control, very little
-decrease from max until 157 degrees for control, max force for fatigued
-was at 157 degrees and had no decrease, very slight plateau from 110-140
-but then increases again.</p>
+100 to 157 degrees. The class-wide force-angle data did not show a
+typical FL relationship for both the control and fatigue group. The max
+force is around 145 for control, and there is very little decrease from
+the maximum until 157 degrees. The max force for fatigue was at 157
+degrees and this group had no decrease. There was a very slight plateau
+from 110-140 but then the graph increased again.</p>
 <p>There is a significant shift between θmax between the control and
 fatigue FL relationships. This is shown by the 8 degree shift in the
 mean of θmax between the control and fatigue conditions after performing
-an ANOVA to investigate whether a shift of θmax is different between the
-control and fatigue experiments, and calculating the mean shift with
-SEM. Since the p-value is less than 0.05, it can be concluded that there
-is a statistically significant difference between the control and
-fatigue FL relationships. In conclusion, the isometric MVCs from
+an ANOVA test to investigate whether a shift of θmax is different
+between the control and fatigue experiments, and calculating the mean
+shift with SEM. Since the p-value is less than 0.05, it can be concluded
+that there is a statistically significant difference between the control
+and fatigue FL relationships. In conclusion, the isometric MVCs from
 different subjects don’t coalesce around a typical FL relationship, and
 θmax differs significantly between control and fatigue FL
 relationships.</p>
