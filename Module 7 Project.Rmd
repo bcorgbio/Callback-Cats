@@ -20,6 +20,18 @@ We seek to construct isometric force-angle curves for forearm flexor MVCs at a n
 
 # Methods
 
+To begin, each group member performed forearm contractions at twelve different elbow angles and these were measured as the control using DAQ. Then, each individual fatigued their elbow flexor muscles and produced maximum voluntary contractions at the same angles as the control. After compiling the MVC data that was collected, the maximum force at each angle and the maximum force across all angles for each group member was found. Next, to normalize the data on a scale of 0 to 1 (1 being the highest recorded force), the maximum values of each angle was divided by Fmax. After normalizing the data, the maximum values were plotted, along with a graph of the mean normalized forces for each angle and experiment. To find the best fit, three models were created. The model found to fit best (lowest AICc score) was used to predict the force for 1000 angles. With the collected data, AIC tests were performed and then the AICs and fits tables were joined. Next, ANOVA tests were performed to test for significant difference of θmax between the control and fatigue FL relationships. Lastly, the mean of θmax and standard error of the mean was calculated. 
+
+Experimental Protocol:
+1. Construct and program a load-cell data acquisition system.
+2. Make a goniometer.
+3. Record isometric MVCs at 12 distinct elbow angles to act as a control.
+4. Eccentrically fatigued our flexors and waited 2 minutes.
+5. Repeat recording isometric MVCs at the same 12 distinct elbow angles.
+6. Upload data to directory.
+7. Analyze data to find maximum force (Fmax) for each recording, and to find maximum force across all angles for each experiment (control or fatigued) for each individual and then divide all maximum values for that experiment by Fmax to calculate θmax .
+
+
 #### Setting Up Dataset for Analysis
 
 ```{r, message = FALSE}
@@ -73,7 +85,7 @@ normF.fat <- data.fat$norm.force
 # Results
 
 
-## Control Condtions
+## Control Conditions
 
 ```{r, "con models", message=FALSE}
 poly.m2.con <- lm(normF.con~poly(ang.con,2)) #second order
@@ -199,7 +211,19 @@ best.models%>%
 #### There is a 8 degree shift in the mean of theta max between the control and fatigue conditions. 
 
 # Discussion
+In @Maganaris2001FL, the transition from 30° of dorsiflexion to 45° of plantarflexion showed the human soleus (SOL) muscle fiber length decreased from 3.8 to 2.4cm and consequently its force decreased from 3330 to 290 Newtons. Over the same range of ankle angles, the tibialis anterior (TA) muscle fiber length increased from 3.7 to 6.0cm and its force increased from 157 to 644 Newtons. Over the longest muscle fiber lengths reached the force of both muscles remained approximately constant. These results indicate that the intact human SOL and TA muscles operate in the ascending limb and plateau region of the typical FL relationship.
+
+A graph of the force-length relationship is typically a parabola. The center of the parabola indicates the maximum force that is generated. Therefore, in a range of angles from 45 degrees to 157 degrees, 100 degrees is expected to generate the maximum force. It is also expected that force will increase from 45 to 100 degrees and then decrease from 100 to 157 degrees. The class-wide force-angle data showed…> atypical FL relationship for both, max force around 145? For control, very little decrease from max until 157 degrees for control, max force for fatigued was at 157 degrees and had no decrease, very slight plateau from 110-140 but then increases again.
+
+There is a significant shift between θmax between the control and fatigue FL relationships. This is shown by the 8 degree shift in the mean of θmax between the control and fatigue conditions after performing an ANOVA to investigate whether a shift of θmax is different between the control and fatigue experiments, and calculating the mean shift with SEM. Since the p-value is less than 0.05, it can be concluded that there is a statistically significant difference between the control and fatigue FL relationships. In conclusion, the isometric MVCs from different subjects don’t coalesce around a typical FL relationship, and θmax differs significantly between control and fatigue FL relationships. 
+
 
 # Author Contributions
+All authors were involved in data collection. 
+Clare Mungovan: worked with Julie on Methods and Discussion. 
+Adam Qu: worked on the Introduction and made general edits.
+Matteo Torquati: worked on the Results section.
+Julie Vu: worked with Clare on Methods and Discussion
+
 
 # References
