@@ -60,8 +60,9 @@ hind.w <- hindwings %>%
   coo_length()
 
 hindwing.AR <- hind.w^2/hind.area
-hindwing.AR.DF <- data.frame(names(hindwing.AR),unname(hindwing.AR))
-colnames(hindwing.AR.DF) <- c("Filename","AR")
+hindwing.AR.DF <- data.frame(xy.file=basename(names(hindwing.AR))) %>% 
+  mutate(identifier=gsub("XY_|_hindwing|_forewing|.txt","",xy.file)) %>% 
+  mutate(hindwing.AR)
 
 
 fore.area <- forewing.gp%>%
@@ -70,7 +71,8 @@ fore.area <- forewing.gp%>%
 fore.w <- forewings %>%
   coo_length()
 forewing.AR <- fore.w^2/fore.area
-forewing.AR.DF <- data.frame(names(forewing.AR),unname(forewing.AR))
-colnames(forewing.AR.DF) <- c("Filename","AR")
+forewing.AR.DF <- data.frame(xy.file=basename(names(forewing.AR))) %>% 
+  mutate(identifier=gsub("XY_|_hindwing|_forewing|.txt","",xy.file)) %>% 
+  mutate(forewing.AR)
 
 
