@@ -1,0 +1,552 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Module 7 Project},
+  pdfauthor={Callback Cats},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Module 7 Project}
+\author{Callback Cats}
+\date{2022-11-20}
+
+\begin{document}
+\maketitle
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+The force produced by the contractions of skeletal muscle allows for
+movement and stabilization of joints, among other functions. Muscle
+generation of tension, or force, is based on the speed and length of the
+muscle. In particular, sliding filament theory posits that sarcomeres
+produce force by forming cross-bridges, protein complexes formed from
+the binding of overlapping actin and myosin. This means that greater
+cross-bridge formation leads to greater force production. It can then be
+inferred that sarcomere maximal isometric force is determined by the
+amount of actin-myosin overlap, which changes with muscle fiber length
+and implies an optimal length for maximal force production (Fig. 1). In
+this project, the force-length relationship is studied using human
+forearm flexors, with muscle length manipulated by altering elbow angle.
+We can then investigate the effect of muscle fiber length on force
+generation, as well as how the FL relationship is impacted by fatigue.
+
+\begin{figure}
+\centering
+\includegraphics{https://s3-us-west-2.amazonaws.com/courses-images/wp-content/uploads/sites/1940/2017/05/29212852/h-20tension-20relationship.png}
+\caption{\textbf{Fig. 1.} The sarcomere force-length relationship. Graph
+from Libretexts (2020).}
+\end{figure}
+
+A previous study (Sharma et al. (2021)), observed the FL relationship by
+measuring maximum isometric contraction in the forearm over a range of
+elbow angles, finding that maximal force production occurred at an
+intermediate elbow angle of 90°. Muanjai et al. (2020) examined knee
+extensor isometric maximal voluntary contractions (MVCs) at various
+angles before and after eccentric exercise, finding a loss of force
+after exercise. Though the authors attribute the force decrease to a
+deficit in excitation-contraction coupling, it is clear that fatigue has
+an effect on force production.
+
+We seek to construct isometric force-angle curves for forearm flexor
+MVCs at a number of elbow angles. The angle (θmax) at which non-fatigued
+(control) maximum isometric force occurs will be compared to the θmax of
+fatigued MVCs. The data collected here will help us to answer if
+isometric MVCs from different subjects coalesce around a typical FL
+relationship, and if θmax differs significantly between control and
+fatigue FL relationships.
+
+\hypertarget{methods}{%
+\section{Methods}\label{methods}}
+
+\hypertarget{setting-up-dataset-for-analysis}{%
+\paragraph{Setting Up Dataset for
+Analysis}\label{setting-up-dataset-for-analysis}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{library}\NormalTok{(MuMIn)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+Here we are reading in the data and calculating the normalized force
+data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{k }\OtherTok{\textless{}{-}} \FunctionTok{list.files}\NormalTok{(}\StringTok{"./Project 8 Data"}\NormalTok{, }\AttributeTok{full.names =}\NormalTok{ T,}\AttributeTok{pattern =} \StringTok{".csv"}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(k)}
+\NormalTok{k.l }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{()}
+
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in}\NormalTok{ k)\{}
+\NormalTok{  met.dat }\OtherTok{\textless{}{-}} \FunctionTok{unlist}\NormalTok{(}\FunctionTok{strsplit}\NormalTok{(i,}\StringTok{"\_"}\NormalTok{))}
+\NormalTok{  sub }\OtherTok{\textless{}{-}}\NormalTok{ met.dat[}\DecValTok{2}\NormalTok{]}
+\NormalTok{  ang }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(met.dat[}\DecValTok{3}\NormalTok{])}
+\NormalTok{  exp }\OtherTok{\textless{}{-}} \FunctionTok{gsub}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{..+"}\NormalTok{,}\StringTok{""}\NormalTok{,met.dat[}\DecValTok{4}\NormalTok{])}
+\NormalTok{  k.l[[i]] }\OtherTok{\textless{}{-}} \FunctionTok{read\_delim}\NormalTok{(i,}\AttributeTok{delim =} \StringTok{" "}\NormalTok{, }\AttributeTok{col\_names =} \FunctionTok{c}\NormalTok{(}\StringTok{"Reading"}\NormalTok{,}\StringTok{"Force"}\NormalTok{,}\StringTok{"Unit"}\NormalTok{), }\AttributeTok{id=}\StringTok{"Experiment"}\NormalTok{,}\AttributeTok{progress =} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{select}\NormalTok{(Force)}\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{sub=}\NormalTok{sub,}\AttributeTok{ang=}\NormalTok{ang,}\AttributeTok{exp=}\NormalTok{exp)}
+\NormalTok{\}}
+
+\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{do.call}\NormalTok{(rbind, k.l)}
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ data}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(sub,exp,ang)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{max.force=}\FunctionTok{max}\NormalTok{(}\FunctionTok{abs}\NormalTok{(Force), }\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{), }\AttributeTok{n=}\FunctionTok{n}\NormalTok{())}
+
+\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{na.omit}\NormalTok{(data)}
+
+\NormalTok{data.joined }\OtherTok{\textless{}{-}}\NormalTok{ data}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(sub,exp)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{max.f2 =} \FunctionTok{max}\NormalTok{(max.force))}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{left\_join}\NormalTok{(data)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{norm.force=}\NormalTok{max.force}\SpecialCharTok{/}\NormalTok{max.f2)}
+
+\NormalTok{data.con }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(data.joined,exp}\SpecialCharTok{==}\StringTok{"control"}\NormalTok{)}
+\NormalTok{data.fat }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(data.joined,exp}\SpecialCharTok{==}\StringTok{"fatigue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Here we are just separating the normalized force and angle values for
+the control and fatigue data respectively.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ang.con }\OtherTok{\textless{}{-}}\NormalTok{ data.con}\SpecialCharTok{$}\NormalTok{ang}
+\NormalTok{normF.con }\OtherTok{\textless{}{-}}\NormalTok{ data.con}\SpecialCharTok{$}\NormalTok{norm.force}
+
+\NormalTok{ang.fat }\OtherTok{\textless{}{-}}\NormalTok{ data.fat}\SpecialCharTok{$}\NormalTok{ang}
+\NormalTok{normF.fat }\OtherTok{\textless{}{-}}\NormalTok{ data.fat}\SpecialCharTok{$}\NormalTok{norm.force}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{results}{%
+\section{Results}\label{results}}
+
+\hypertarget{control-condtions}{%
+\subsection{Control Condtions}\label{control-condtions}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{poly.m2.con }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(normF.con}\SpecialCharTok{\textasciitilde{}}\FunctionTok{poly}\NormalTok{(ang.con,}\DecValTok{2}\NormalTok{)) }\CommentTok{\#second order}
+\NormalTok{poly.m3.con }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(normF.con}\SpecialCharTok{\textasciitilde{}}\FunctionTok{poly}\NormalTok{(ang.con,}\DecValTok{3}\NormalTok{)) }\CommentTok{\#third order}
+\NormalTok{poly.m4.con }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(normF.con}\SpecialCharTok{\textasciitilde{}}\FunctionTok{poly}\NormalTok{(ang.con,}\DecValTok{4}\NormalTok{)) }\CommentTok{\#fourth order}
+
+\FunctionTok{AICc}\NormalTok{(poly.m2.con,poly.m3.con,poly.m4.con)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             df      AICc
+## poly.m2.con  4 -1102.575
+## poly.m3.con  5 -1100.887
+## poly.m4.con  6 -1103.386
+\end{verbatim}
+
+\hypertarget{the-fourth-order-model-fits-the-best-to-data-because-it-is-has-the-lowest-aic-score.}{%
+\paragraph{The fourth order model fits the best to data because it is
+has the lowest AIC
+score.}\label{the-fourth-order-model-fits-the-best-to-data-because-it-is-has-the-lowest-aic-score.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x.pred}\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\DecValTok{45}\NormalTok{,}\FloatTok{157.5}\NormalTok{,}\AttributeTok{length.out =} \DecValTok{1000}\NormalTok{) }\CommentTok{\#define 1000 angles from our range}
+
+\NormalTok{normF.pred.con }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(poly.m3.con,}\AttributeTok{newdata =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{ang.con=}\NormalTok{x.pred)) }\CommentTok{\#predict the force using 1000 angles}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{normative-force-vs.-angle-of-arm-for-control-conditions}{%
+\paragraph{Normative Force vs.~Angle of Arm for Control
+Conditions}\label{normative-force-vs.-angle-of-arm-for-control-conditions}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{qplot}\NormalTok{(ang.con,normF.con)}\SpecialCharTok{+}\FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{x.pred,}\AttributeTok{y=}\NormalTok{normF.pred.con),}\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}\SpecialCharTok{+}\FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{x.pred[}\FunctionTok{which.max}\NormalTok{(normF.pred.con)],}\AttributeTok{y=}\NormalTok{normF.pred.con[}\FunctionTok{which.max}\NormalTok{(normF.pred.con)]),}\AttributeTok{size=}\DecValTok{5}\NormalTok{,}\AttributeTok{col=}\StringTok{"blue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module-7-Project_files/figure-latex/con graphs-1.pdf}
+
+\hypertarget{theta-max-for-control-conditions}{%
+\paragraph{Theta Max for Control
+Conditions}\label{theta-max-for-control-conditions}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x.pred[}\FunctionTok{which.max}\NormalTok{(normF.pred.con)]  }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 141.9595
+\end{verbatim}
+
+\hypertarget{fatigue-condtions}{%
+\subsection{Fatigue Condtions}\label{fatigue-condtions}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{poly.m2.fat }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(normF.fat}\SpecialCharTok{\textasciitilde{}}\FunctionTok{poly}\NormalTok{(ang.fat,}\DecValTok{2}\NormalTok{)) }\CommentTok{\#second order}
+\NormalTok{poly.m3.fat }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(normF.fat}\SpecialCharTok{\textasciitilde{}}\FunctionTok{poly}\NormalTok{(ang.fat,}\DecValTok{3}\NormalTok{)) }\CommentTok{\#third order}
+\NormalTok{poly.m4.fat }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(normF.fat}\SpecialCharTok{\textasciitilde{}}\FunctionTok{poly}\NormalTok{(ang.fat,}\DecValTok{4}\NormalTok{)) }\CommentTok{\#fourth order}
+
+\FunctionTok{AICc}\NormalTok{(poly.m2.fat,poly.m3.fat,poly.m4.fat) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             df      AICc
+## poly.m2.fat  4 -919.2917
+## poly.m3.fat  5 -922.6770
+## poly.m4.fat  6 -921.3303
+\end{verbatim}
+
+\hypertarget{the-thirds-order-model-fits-to-the-data-the-best-because-it-is-has-the-lowest-aic-score.}{%
+\paragraph{The thirds order model fits to the data the best because it
+is has the lowest AIC
+score.}\label{the-thirds-order-model-fits-to-the-data-the-best-because-it-is-has-the-lowest-aic-score.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{normF.pred.fat }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(poly.m4.fat,}\AttributeTok{newdata =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{ang.fat=}\NormalTok{x.pred)) }\CommentTok{\#predict the force using 1000 angles}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{normative-force-vs.-angle-of-arm-for-fatigue-conditions}{%
+\paragraph{Normative Force vs.~Angle of Arm for Fatigue
+Conditions}\label{normative-force-vs.-angle-of-arm-for-fatigue-conditions}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{qplot}\NormalTok{(ang.fat,normF.fat)}\SpecialCharTok{+}\FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{x.pred,}\AttributeTok{y=}\NormalTok{normF.pred.fat),}\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}\SpecialCharTok{+}\FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{x.pred[}\FunctionTok{which.max}\NormalTok{(normF.pred.fat)],}\AttributeTok{y=}\NormalTok{normF.pred.fat[}\FunctionTok{which.max}\NormalTok{(normF.pred.fat)]),}\AttributeTok{size=}\DecValTok{5}\NormalTok{,}\AttributeTok{col=}\StringTok{"blue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module-7-Project_files/figure-latex/Fat graph -1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x.pred[}\FunctionTok{which.max}\NormalTok{(normF.pred.fat)]}\SpecialCharTok{{-}}\NormalTok{x.pred[}\FunctionTok{which.max}\NormalTok{(normF.pred.con)] }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 15.54054
+\end{verbatim}
+
+\hypertarget{there-is-a-15.5-degree-shift-in-theta-max.}{%
+\paragraph{There is a 15.5 degree shift in theta
+max.}\label{there-is-a-15.5-degree-shift-in-theta-max.}}
+
+\hypertarget{normative-force-vs.-angle-of-arm-grouped-by-control-and-fatigue-conditions}{%
+\paragraph{Normative Force vs.~Angle of Arm Grouped by Control and
+Fatigue
+Conditions}\label{normative-force-vs.-angle-of-arm-grouped-by-control-and-fatigue-conditions}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data.joined}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(ang,norm.force,}\AttributeTok{col=}\NormalTok{exp))}\SpecialCharTok{+}\FunctionTok{geom\_point}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module-7-Project_files/figure-latex/overlaying graph-1.pdf}
+
+Here we are calculating the AIC scores and fitting the models.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{AICs }\OtherTok{\textless{}{-}}\NormalTok{ data.joined}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(sub,exp)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}
+    \AttributeTok{m2=}\FunctionTok{AICc}\NormalTok{(}\FunctionTok{lm}\NormalTok{(norm.force}\SpecialCharTok{\textasciitilde{}}\FunctionTok{poly}\NormalTok{(ang,}\DecValTok{2}\NormalTok{))), }\CommentTok{\#second order}
+    \AttributeTok{m3=}\FunctionTok{AICc}\NormalTok{(}\FunctionTok{lm}\NormalTok{(norm.force}\SpecialCharTok{\textasciitilde{}}\FunctionTok{poly}\NormalTok{(ang,}\DecValTok{3}\NormalTok{))), }\CommentTok{\#third order}
+    \AttributeTok{m4=}\FunctionTok{AICc}\NormalTok{(}\FunctionTok{lm}\NormalTok{(norm.force}\SpecialCharTok{\textasciitilde{}}\FunctionTok{poly}\NormalTok{(ang,}\DecValTok{4}\NormalTok{))) }\CommentTok{\#fourth order}
+\NormalTok{  )}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(m2}\SpecialCharTok{:}\NormalTok{m4,}\AttributeTok{names\_to=}\StringTok{"model"}\NormalTok{,}\AttributeTok{values\_to=}\StringTok{"AICc"}\NormalTok{)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{print}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 165 x 4
+## # Groups:   sub [28]
+##    sub   exp     model    AICc
+##    <chr> <chr>   <chr>   <dbl>
+##  1 1     control m2    -130.  
+##  2 1     control m3    -126.  
+##  3 1     control m4    -117.  
+##  4 1     fatigue m2     -87.0 
+##  5 1     fatigue m3     -94.2 
+##  6 1     fatigue m4     -85.6 
+##  7 10    control m2     -70.1 
+##  8 10    control m3     -52.1 
+##  9 10    control m4       3.37
+## 10 10    fatigue m2     -34.8 
+## # ... with 155 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fits }\OtherTok{\textless{}{-}}\NormalTok{ data.joined}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(sub,exp)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}
+    \AttributeTok{m2=}\FunctionTok{predict}\NormalTok{(}\FunctionTok{lm}\NormalTok{(norm.force}\SpecialCharTok{\textasciitilde{}}\FunctionTok{poly}\NormalTok{(ang,}\DecValTok{2}\NormalTok{)),}\AttributeTok{newdata=}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{ang=}\NormalTok{x.pred)), }\CommentTok{\#second order}
+    \AttributeTok{m3=}\FunctionTok{predict}\NormalTok{(}\FunctionTok{lm}\NormalTok{(norm.force}\SpecialCharTok{\textasciitilde{}}\FunctionTok{poly}\NormalTok{(ang,}\DecValTok{3}\NormalTok{)),}\AttributeTok{newdata=}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{ang=}\NormalTok{x.pred)), }\CommentTok{\#third order}
+    \AttributeTok{m4=}\FunctionTok{predict}\NormalTok{(}\FunctionTok{lm}\NormalTok{(norm.force}\SpecialCharTok{\textasciitilde{}}\FunctionTok{poly}\NormalTok{(ang,}\DecValTok{4}\NormalTok{)),}\AttributeTok{newdata=}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{ang=}\NormalTok{x.pred)) }\CommentTok{\#fourth order}
+\NormalTok{  )}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(m2}\SpecialCharTok{:}\NormalTok{m4,}\AttributeTok{names\_to=}\StringTok{"model"}\NormalTok{)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(sub,exp,model)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{theta\_max=}\NormalTok{x.pred[}\FunctionTok{which.max}\NormalTok{(value)])}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{print}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 165 x 4
+## # Groups:   sub, exp [55]
+##    sub   exp     model theta_max
+##    <chr> <chr>   <chr>     <dbl>
+##  1 1     control m2         135.
+##  2 1     control m3         135.
+##  3 1     control m4         135.
+##  4 1     fatigue m2         158.
+##  5 1     fatigue m3         158.
+##  6 1     fatigue m4         158.
+##  7 10    control m2         136.
+##  8 10    control m3         136.
+##  9 10    control m4         136.
+## 10 10    fatigue m2         158.
+## # ... with 155 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{best.models }\OtherTok{\textless{}{-}}\NormalTok{ fits}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{left\_join}\NormalTok{(AICs)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(sub,exp)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{best=}\NormalTok{AICc}\SpecialCharTok{==}\FunctionTok{min}\NormalTok{(AICc))}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(best}\SpecialCharTok{==}\ConstantTok{TRUE}\NormalTok{)}\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{best)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{print}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 55 x 5
+## # Groups:   sub, exp [55]
+##    sub   exp     model theta_max   AICc
+##    <chr> <chr>   <chr>     <dbl>  <dbl>
+##  1 1     control m2         135. -130. 
+##  2 1     fatigue m3         158.  -94.2
+##  3 10    control m2         136.  -70.1
+##  4 10    fatigue m3         158.  -53.9
+##  5 14    control m2         136. -115. 
+##  6 14    fatigue m3         158.  -75.6
+##  7 17    control m2         158.  -38.5
+##  8 17    fatigue m3         158.  -38.4
+##  9 18    control m2         158.  -27.9
+## 10 18    fatigue m2         139.  -29.3
+## # ... with 45 more rows
+\end{verbatim}
+
+Performing an ANOVA to investigate whether a shift of theta max is
+different between the control and fatigue experiments.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{anova}\NormalTok{(}\FunctionTok{lm}\NormalTok{(theta\_max}\SpecialCharTok{\textasciitilde{}}\NormalTok{exp,best.models))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: theta_max
+##           Df  Sum Sq Mean Sq F value  Pr(>F)  
+## exp        1   754.3  754.27   3.415 0.07019 .
+## Residuals 53 11706.1  220.87                  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+Calculating the mean shift with SEM.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{best.models}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{id\_cols=}\NormalTok{sub,}\AttributeTok{names\_from =}\NormalTok{ exp,}\AttributeTok{values\_from=}\NormalTok{theta\_max)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{shift=}\NormalTok{fatigue}\SpecialCharTok{{-}}\NormalTok{control)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ungroup}\NormalTok{()}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{mean.shift=}\FunctionTok{abs}\NormalTok{(}\FunctionTok{mean}\NormalTok{(}\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{,shift)),}\AttributeTok{se.shift=}\FunctionTok{sd}\NormalTok{(}\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{,shift)}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(}\FunctionTok{length}\NormalTok{(shift)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 2
+##   mean.shift se.shift
+##        <dbl>    <dbl>
+## 1       8.02     4.33
+\end{verbatim}
+
+\hypertarget{there-is-a-8-degree-shift-in-the-mean-of-theta-max-between-the-control-and-fatigue-conditions.}{%
+\paragraph{There is a 8 degree shift in the mean of theta max between
+the control and fatigue
+conditions.}\label{there-is-a-8-degree-shift-in-the-mean-of-theta-max-between-the-control-and-fatigue-conditions.}}
+
+\hypertarget{discussion}{%
+\section{Discussion}\label{discussion}}
+
+\hypertarget{author-contributions}{%
+\section{Author Contributions}\label{author-contributions}}
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-libretexts2020muscle}{}}%
+Libretexts. 2020. {``9.3a: Force of Muscle Contraction.''}
+\emph{Medicine LibreTexts}, August.
+\url{https://med.libretexts.org/Bookshelves/Anatomy_and_Physiology/Book\%3A_Anatomy_and_Physiology_\%28Boundless\%29/9\%3A_Muscular_System/9.3\%3A_Control_of_Muscle_Tension/9.3A\%3A_Force_of_Muscle_Contraction}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-Muanjai2020knee}{}}%
+Muanjai, Pornpimol, Mantas Mickevicius, Audrius Sniečkus, Saulė
+Sipavičienė, Danguole Satkunskiene, Sigitas Kamandulis, and David A.
+Jones. 2020. {``Low Frequency Fatigue and Changes in Muscle Fascicle
+Length Following Eccentric Exercise of the Knee Extensors.''}
+\emph{Experimental Physiology} 105 (3): 502--10.
+
+\leavevmode\vadjust pre{\hypertarget{ref-Sharma2020angles}{}}%
+Sharma, Hanjabam Barun, Arani Das, Prashant Tayade, and Kishore K.
+Deepak. 2021. {``Recording of Length-Tension Relationship of Elbow
+Flexors and Extensors by Varying Elbow Angle in Human.''} \emph{Indian
+Journal of Physiology and Pharmacology}, January.
+\url{https://ijpp.com/recording-of-length-tension-relationship-of-elbow-flexors-and-extensors-by-varying-elbow-angle-in-human/}.
+
+\end{CSLReferences}
+
+\end{document}
