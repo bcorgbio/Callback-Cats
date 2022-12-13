@@ -75,4 +75,108 @@ forewing.AR.DF <- data.frame(xy.file=basename(names(forewing.AR))) %>%
   mutate(identifier=gsub("XY_|_hindwing|_forewing|.txt","",xy.file)) %>% 
   mutate(forewing.AR)
 
+#forewing.AR.DF <- forewing.AR.DF%>% 
+ # left_join(Species_Scale_Bar) %>%
+# na.omit()
+
+lep.tree <- ape::read.tree("lep_tree2.tre")
+lep.tree <- ladderize(lep.tree)
+
+lep.tree$tip.label <- gsub("_"," ",lep.tree$tip.label)
+
+
+lep.sp <- read_csv("lep_image_data.csv")
+
+out.data <- tibble(xy.file=basename(names(outs))) %>% 
+  mutate(identifier=gsub("XY_|_hindwing|_forewing|.txt","",xy.file)) %>% 
+  left_join(lep.sp)
+
+hindwing.AR.DF <- hindwing.AR.DF %>% 
+  left_join(lep.sp)
+
+forewing.AR.DF <- forewing.AR.DF %>% 
+  left_join(lep.sp)
+
+forewing.pca <- forewings %>%
+  coo_interpolate(fore.min) %>%
+  coo_align()  %>%
+  coo_slide(id=1) %>% 
+  fgProcrustes() %>% 
+  efourier(norm=FALSE) %>% 
+  PCA()
+
+hindwing.pca <-hindwings %>% 
+  coo_interpolate(hind.min) %>% 
+  coo_align()  %>%
+  coo_slide(id=1) %>% 
+  fgProcrustes() %>% 
+  efourier(norm=FALSE) %>% 
+  PCA()
+
+out.data <- tibble(xy.file=basename(names(outs))) %>% 
+  mutate(identifier=gsub("XY_|_hindwing|_forewing|.txt","",xy.file)) %>% 
+  left_join(lep.sp)
+
+hindwing.pca2 <-  tibble(xy.file=basename(rownames(hindwing.pca$x)),PC1=hindwing.pca$x[,1],PC2=hindwing.pca$x[,2]) %>% 
+  left_join(out.data)
+
+forewing.pca2 <-  tibble(xy.file=basename(rownames(forewing.pca$x)),PC1=forewing.pca$x[,1],PC2=forewing.pca$x[,2])%>% 
+  left_join(out.data)
+
+
+hindwing.AR.PCA <- hindwing.AR.DF %>% 
+  left_join(hindwing.pca2)%>% 
+  na.omit()
+  
+
+forewing.AR.PCA <- forewing.AR.DF %>% 
+  left_join(forewing.pca2)%>% 
+  na.omit()
+
+hindwing.AR.PCA %>% 
+  ggplot(aes(x=hindwing.AR,y=PC1))+geom_point()+geom_smooth(method="lm")
+
+forewing.AR.PCA %>% 
+  ggplot(aes(x=forewing.AR,y=PC1))+geom_point()+geom_smooth(method="lm")
+
+
+
+#evolutionary data
+drops <- lep.tree$tip.label[!lep.tree$tip.label%in%unique(out.data$species)]
+
+lep.tree2 <- drop.tip(lep.tree,drops)
+
+plot(lep.tree2,cex=0.5)
+
+hind.AR <- hindwing.AR.DF %>% 
+  filter(species%in% lep.tree2$tip.label) %>% 
+  group_by(species) %>% 
+  summarize(hindwing.AR=mean(hindwing.AR)) %>% 
+  pull
+
+names(hind.AR) <-  hindwing.AR.DF%>% 
+  filter(species%in% lep.tree2$tip.label) %>% 
+  group_by(species) %>% 
+  summarize(hindwing.AR=mean(hindwing.AR)) %>% 
+  pull(species)
+
+
+fore.AR <- forewing.AR.DF %>% 
+  filter(species%in% lep.tree2$tip.label) %>% 
+  group_by(species) %>% 
+  summarize(forewing.AR=mean(forewing.AR)) %>% 
+  pull
+
+names(fore.AR) <-  forewing.AR.DF%>% 
+  filter(species%in% lep.tree2$tip.label) %>% 
+  group_by(species) %>% 
+  summarize(forewing.AR=mean(forewing.AR)) %>% 
+  pull(species)
+
+library(phytools)
+
+foreAR.BM<-brownie.lite(lep.tree2,fore.AR*10)
+hindAR.BM<-brownie.lite(lep.tree2,hind.AR*10)
+
+
 
