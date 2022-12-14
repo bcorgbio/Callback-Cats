@@ -274,10 +274,6 @@ hindAR.res <- plot_SS(lep.tree2,hindAR.SS,tax = tax.names)
 hindAR.res$plot
 
 hindAR.res$res
-foreAR.res <- plot_SS(lep.tree2,foreAR.SS,tax = tax.names)
-foreAR.res$plot
-
-foreAR.res$res
 
 #Size evolution correlation
 hindAR.pic <- pic(hind.AR,phy = lep.tree2)
