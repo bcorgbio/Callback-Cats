@@ -55,8 +55,9 @@ hindwing.gp <- hindwings %>%
 hind.area <- hindwing.gp%>%
   coo_trans(10,10) %>% #just moves every outline up and right 10 units so areas are all positive
   coo_area()
+  
 
-hind.w <- hindwings %>%
+hind.w <- hindwing.gp%>%
   coo_length()
 
 hindwing.AR <- hind.w^2/hind.area
@@ -68,7 +69,7 @@ hindwing.AR.DF <- data.frame(xy.file=basename(names(hindwing.AR))) %>%
 fore.area <- forewing.gp%>%
   coo_trans(10,10) %>% #just moves every outline up and right 10 units so areas are all positive
   coo_area()
-fore.w <- forewings %>%
+fore.w <- forewing.gp %>%
   coo_length()
 forewing.AR <- fore.w^2/fore.area
 forewing.AR.DF <- data.frame(xy.file=basename(names(forewing.AR))) %>% 
@@ -78,6 +79,10 @@ forewing.AR.DF <- data.frame(xy.file=basename(names(forewing.AR))) %>%
 #forewing.AR.DF <- forewing.AR.DF%>% 
  # left_join(Species_Scale_Bar) %>%
 # na.omit()
+
+
+
+#PCA Analysis
 
 lep.tree <- ape::read.tree("lep_tree2.tre")
 lep.tree <- ladderize(lep.tree)
@@ -139,8 +144,15 @@ hindwing.AR.PCA %>%
 forewing.AR.PCA %>% 
   ggplot(aes(x=forewing.AR,y=PC1))+geom_point()+geom_smooth(method="lm")
 
+hindwing.AR.PCA %>% 
+  ggplot(aes(x=hindwing.AR,y=PC2))+geom_point()+geom_smooth(method="lm")
 
-#EVOLUTIONARY RATES
+forewing.AR.PCA %>% 
+  ggplot(aes(x=forewing.AR,y=PC2))+geom_point()+geom_smooth(method="lm")
+
+
+
+
 #evolutionary data
 drops <- lep.tree$tip.label[!lep.tree$tip.label%in%unique(out.data$species)]
 
@@ -178,5 +190,26 @@ library(phytools)
 foreAR.BM<-brownie.lite(lep.tree2,fore.AR*10)
 hindAR.BM<-brownie.lite(lep.tree2,hind.AR*10)
 
+foreAR.BM$sig2.single
 
+library(RRphylo)
 
+hindAR.RR <- RRphylo(tree=lep.tree2,y=hind.AR)
+hindAR.RR$rates
+
+hindAR.SS<- search.shift(RR=hindAR.RR,status.type="clade")
+
+hindAR.SS$single.clades
+
+plot(lep.tree2)
+nodelabels(node = as.numeric(rownames(hindAR.SS$single.clades)),text = rownames(hindAR.SS$single.clades))
+
+hindAR.plot <- plotShift(RR=hindAR.RR,SS=hindAR.SS)
+
+foreAR.plot <- plotShift(RR=hindAR.RR,SS=hindAR.SS)
+hindAR.plot$plotClades()
+
+if (!require("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+
+BiocManager::install("ggtree")
