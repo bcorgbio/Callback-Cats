@@ -55,7 +55,7 @@ hindwing.gp <- hindwings %>%
 hind.area <- hindwing.gp%>%
   coo_trans(10,10) %>% #just moves every outline up and right 10 units so areas are all positive
   coo_area()
-  
+
 
 hind.w <- hindwing.gp%>%
   coo_length()
@@ -77,7 +77,7 @@ forewing.AR.DF <- data.frame(xy.file=basename(names(forewing.AR))) %>%
   mutate(forewing.AR)
 
 #forewing.AR.DF <- forewing.AR.DF%>% 
- # left_join(Species_Scale_Bar) %>%
+# left_join(Species_Scale_Bar) %>%
 # na.omit()
 
 
@@ -132,7 +132,7 @@ forewing.pca2 <-  tibble(xy.file=basename(rownames(forewing.pca$x)),PC1=forewing
 hindwing.AR.PCA <- hindwing.AR.DF %>% 
   left_join(hindwing.pca2)%>% 
   na.omit()
-  
+
 
 forewing.AR.PCA <- forewing.AR.DF %>% 
   left_join(forewing.pca2)%>% 
