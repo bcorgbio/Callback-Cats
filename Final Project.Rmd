@@ -266,7 +266,7 @@ plot_SS <- function(tre=NULL,SS=NULL,tax=NULL){
 
 
 # Results
-
+#### PCA Analysis
 ```{r, "PCA Analysis vs. AR", message=FALSE, echo=FALSE,fig.cap="PCA Analysis vs. AR"}
 hindwing.AR.PCA %>% 
   ggplot(aes(x=hindwing.AR,y=PC1))+geom_point()+geom_smooth(method="lm")
@@ -281,18 +281,24 @@ forewing.AR.PCA %>%
   ggplot(aes(x=forewing.AR,y=PC2))+geom_point()+geom_smooth(method="lm")
 ```
 
+### Evolutionary rates
+```{r, "Load tree, drop tips not in PCA data", results = FALSE, message = FALSE, fig.cap="The Lepidopteran phylogenetic tree"}
 
-```{r, "Comparing AR wing evolutionary rates"}
-#Compare AR wing evolutionary rates
-
-foreAR.BM$sig2.single
-hindAR.BM$sig2.single
-
-#rate.
-hindAR.SS$single.clades
+plot(lep.tree,cex=0.1)
 ```
 
 
+```{r, "Comparing AR wing evolutionary rates"}
+#Compare wing AR evolutionary rates
+foreAR.BM$sig2.single
+hindAR.BM$sig2.single
+
+#rate
+hindAR.SS$single.clades
+```
+Analysis showed that wing aspect ratio evolutionary rates differ between fore- and hindwings. There was a difference of 4.9434 units.
+
+#### Evolutionary Rate Shifts
 ```{r, "Plot Phylo"}
 #Phylo Plot
 plot(lep.tree2)
@@ -303,6 +309,7 @@ hindAR.plot <- plotShift(RR=hindAR.RR,SS=hindAR.SS)
 foreAR.plot <- plotShift(RR=hindAR.RR,SS=hindAR.SS)
 hindAR.plot$plotClades()
 ```
+
 
 ```{r, "Evolutionary Shift"}
 #What clades/lineages underwent shift
