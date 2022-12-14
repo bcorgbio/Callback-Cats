@@ -151,8 +151,6 @@ forewing.AR.PCA %>%
   ggplot(aes(x=forewing.AR,y=PC2))+geom_point()+geom_smooth(method="lm")
 
 
-
-
 #evolutionary data
 drops <- lep.tree$tip.label[!lep.tree$tip.label%in%unique(out.data$species)]
 
@@ -190,12 +188,12 @@ library(phytools)
 foreAR.BM<-brownie.lite(lep.tree2,fore.AR*10)
 hindAR.BM<-brownie.lite(lep.tree2,hind.AR*10)
 
+#Compare wing evolutionary rates
 foreAR.BM$sig2.single
+hindAR.BM$sig2.single
 
-<<<<<<< HEAD
-=======
+#shifts in evolutionary rate
 library(RRphylo)
-
 hindAR.RR <- RRphylo(tree=lep.tree2,y=hind.AR)
 hindAR.RR$rates
 
@@ -210,9 +208,9 @@ hindAR.plot <- plotShift(RR=hindAR.RR,SS=hindAR.SS)
 
 foreAR.plot <- plotShift(RR=hindAR.RR,SS=hindAR.SS)
 hindAR.plot$plotClades()
->>>>>>> 0db3e005949767724c652c851e8f9ba9d485bc62
 
 if (!require("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 
 BiocManager::install("ggtree")
+
