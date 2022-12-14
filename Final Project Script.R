@@ -191,6 +191,7 @@ foreAR.BM<-brownie.lite(lep.tree2,fore.AR*10)
 hindAR.BM<-brownie.lite(lep.tree2,hind.AR*10)
 
 foreAR.BM$sig2.single
+hindAR.BM$sig2.single
 
 library(RRphylo)
 
