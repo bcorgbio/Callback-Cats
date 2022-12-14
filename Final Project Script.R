@@ -140,7 +140,7 @@ forewing.AR.PCA %>%
   ggplot(aes(x=forewing.AR,y=PC1))+geom_point()+geom_smooth(method="lm")
 
 
-
+#EVOLUTIONARY RATES
 #evolutionary data
 drops <- lep.tree$tip.label[!lep.tree$tip.label%in%unique(out.data$species)]
 
