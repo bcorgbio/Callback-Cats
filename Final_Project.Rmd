@@ -374,34 +374,37 @@ plot(lep.tree,cex=0.1)
 foreAR.BM$sig2.single
 hindAR.BM$sig2.single
 
-#rate
-hindAR.SS$single.clades
 ```
 Analysis showed that wing aspect ratio evolutionary rates differ between fore- and hindwings. There was a difference of 4.9434 units.
 
 #### Evolutionary Rate Shifts
 
-
-```{r, "Tree with exceptional shift highlighted",echo=FALSE,fig.cap="Figure 8: Lepidoptera phylogenetic tree with lineages with exceptional shifts indicated by a triangle. Blue and downward triangle signifies a low shift."}
+```{r, "Tree with exceptional shift highlighted",echo=FALSE,message=FALSE, fig.cap="Figure 8: Lepidoptera phylogenetic tree with lineages with exceptional shifts indicated by a triangle. Blue and downward triangle signifies a low shift."}
 #What clades/lineages underwent shift
 tax.names <- readRDS("Lep_classification.RDS")
 
 hindAR.res <- plot_SS(lep.tree2,hindAR.SS,tax = tax.names)
 
 hindAR.res$plot
-
+```
+```{r, "Scale of shift", echo=FALSE, fig.cap = "The scale of the shift"}
 hindAR.res$res
 ```
+The Obtectomera clade underwent a significant downshift in evolutionary rate, with a slowdown of -0.0245 units.
+
 
 #### Aspect Ratio Evolution Correlation
 
-```{r, "Aspect Ratio Evolution Correlation", fig.cap="Figure 9: Linear regression of PIC-transformed aspect ratios"}
-
+```{r, "Aspect Ratio Evolution Correlation", message=FALSE, echo=FALSE, fig.cap="Figure 9: Linear regression of PIC-transformed aspect ratios"}
 AR.pic %>% 
   ggplot(aes(x=fore,y=hind))+geom_point()+geom_smooth(method="lm")
+```
 
+```{r, "Summary of linear model of AR evolution correlation", echo=FALSE}
 summary(lm(hind~fore,AR.pic))
 ```
+Analysis of fore- and hindwing aspect ratio evolutionary rates shows that they are correlated. Though the R-squared value is low, the p-value is close to zero (0.0002), indicating a significant relationship.
+
 # Discussion
 
 # Author Contributions
