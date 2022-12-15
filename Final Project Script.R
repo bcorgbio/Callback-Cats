@@ -33,6 +33,9 @@ forewings <- outs %>%
 hindwings <- outs %>% 
   filter(wing=="hindwing")
 
+hind.min <- hindwings %>% 
+  coo_nb() %>% 
+  min()
 
 fore.min <- forewings %>% 
   coo_nb() %>% 
@@ -41,10 +44,6 @@ fore.min <- forewings %>%
 forewing.gp <- forewings %>%
   coo_interpolate(fore.min) %>% 
   fgProcrustes() 
-
-hind.min <- hindwings %>% 
-  coo_nb() %>% 
-  min()
 
 hindwing.gp <- hindwings %>% 
   coo_interpolate(hind.min) %>% 
@@ -124,7 +123,7 @@ out.data <- tibble(xy.file=basename(names(outs))) %>%
 
 hindwing.pca2 <-  tibble(xy.file=basename(rownames(hindwing.pca$x)),PC1=hindwing.pca$x[,1],PC2=hindwing.pca$x[,2]) %>% 
   left_join(out.data)
-
+#contains both PCA1 and PCA 2 for hindwing
 forewing.pca2 <-  tibble(xy.file=basename(rownames(forewing.pca$x)),PC1=forewing.pca$x[,1],PC2=forewing.pca$x[,2])%>% 
   left_join(out.data)
 
