@@ -3,7 +3,6 @@ title: "Final Project"
 author: "Callback Cats"
 date: "2022-12-14"
 output: html_document
-bibliography: FP.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -12,41 +11,16 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introduction
 
-According to @hassall2015strong, aspect ratio is the length of the wing relative to the width and is a key shape parameter that determines flying capabilities. As mentioned by @betts1988wing, Lepidoptera species with high aspect ratios have high wing loading, higher gliding efficiency, and favor fast extended flight. In contrast, species with lower wing aspect ratios (shorter, broader wings) compensate with higher wingbeat frequency and therefore have greater maneuverability and dispersal ability. Due to aerodynamic principles, an increase in wingbeat frequency is needed in order to generate sufficient lift and thrust during flight. Consequently, there are increased energetic costs of flight and reduced survival. 
-
-In terms of the difference between hindwings and forewings, they have different roles in flight behavior and so they experience different selective pressures. 
-
-
-<center>
-![Aspect Ratios of Different Planes. Image from [boldmethod](https://www.boldmethod.com/learn-to-fly/aircraft-systems/how-does-aspect-ratio-affect-aircraft-wings/)](https://cdn.boldmethod.com/images/blog/article/2015/02/your-guide-to-glider-flying/wing-aspect-ratio.jpg){width=60%}
-
-
-
-
 
 # Methods
-
-1. Begin with digitizing and outlining the hindwing and forewing of 200 species.
-2. Calculated wing aspect ratio for both the hindwings and forewings by using the Procrustes transformation. 
-3. PCA was performed to analyze the digitized files by creating 2 vectors. PC1, the first vector, accounts for the most variance within the data set. PC2, the second vector, accounts for the second most variance
-4. The relationship between the two PCs and the aspect ratio was then explored qualitatively and quantitatively by creating a biplot of the two PCs and by plotting the two PCs against the aspect ratio of the fore- and hindwings, respectively.
-5. Aspect ratios were then used to analyze the evolutionary rates for the hindwings and forewings and then across the 200 species in the Lepidopteran tree. 
-6. From this, we constructed a phylogenetic tree to calculate the likelihood of rates as well as found significant evolutionary shifts amongst clades/lineages. 
-7. Phylogenetic independent contrasts (PIC) analysis was performed by regressing the hindwing and forewing data against one another to find whether hindwing and forewing shape evolution is correlated when it is based on aspect ratio.
-
-#### Image acquisition
-
-All images of the Lepidoptera were pulled from the Global Biodiversity Information Facility (GBIF), a clearing house of collections and species information. GBIF have created an R package, [rgif](https://www.gbif.org/tool/81747/rgbif), that allows access to GBIF’s application programming interface (API).This packages allows their records to be searchable from the command line.
-
 
 #### Digitization
 Shape analysis was based on the outline of the hind- and fore-wings of ~200 species of Lepidoptera. The image analysis program FIJI was used to outline the wings. A spline was fit on all hind- and fore-wings.
 
 
-#### Performing Shape Analysis and Calculating Wing Aspect Ratio
+#### Calculating Wing Aspect Ratio
 
-```{r, message = FALSE, results=FALSE}
-#Loading in libraries
+```{r, message = FALSE}
 library(tidyverse)
 library(Momocs)
 library(tibble)
@@ -57,10 +31,7 @@ library(ggtree)
 library(wesanderson)
 ```
 
-For the shape analysis, Elliptical Fourier analysis (EFA) was use. EFA collects variables that describes the shapes in the data set as a series of ellipses. Before performing EFA, first the forewing and hindwing were separated in different data sets. Next the issue of arbitrary size differences was addressed by using the Procrustes transformation. 
-
 ```{r,"Setting up for Shape Analysis", message = FALSE, results= FALSE}
-#Setting up for Shape Analysis
 f <- list.files("class_out_data",pattern=".txt|.csv",full.names = TRUE)
 
 out <- read_delim(f[1],delim="\t") %>% 
@@ -107,8 +78,6 @@ hindwing.gp <- hindwings %>%
   fgProcrustes()
 ``` 
 
-
-Aspect ratio was calculated by squaring the length of the wing and then dividing it by the area of the wing. 
 ```{r, "Calculating AR", results = FALSE, message = FALSE}
 hind.area <- hindwing.gp%>%
   coo_trans(10,10) %>% #just moves every outline up and right 10 units so areas are all positive
@@ -139,8 +108,6 @@ forewing.AR.DF <- data.frame(xy.file=basename(names(forewing.AR))) %>%
 
 
 #### PCA Analysis
-
-Principal Components Analysis (PCA) was then used to distill the EFA data into a set of fewer variables that describe the important variance among the wings. PCA analyzes the digitized files and distills the variables to a set of fewer variables by creating 2 vectors. PC1 is the first vector and accounts for the most variance within the data set. PC2 is the second vector and accounts for the second most variance..
 
 ```{r, "PCA Analysis", results = FALSE, message = FALSE}
 lep.sp <- read_csv("lep_image_data.csv")
@@ -177,12 +144,9 @@ out.data <- tibble(xy.file=basename(names(outs))) %>%
 
 hindwing.pca2 <-  tibble(xy.file=basename(rownames(hindwing.pca$x)),PC1=hindwing.pca$x[,1],PC2=hindwing.pca$x[,2]) %>% 
   left_join(out.data)
-#contains both PCA1 and PCA 2 for hindwing
 
 forewing.pca2 <-  tibble(xy.file=basename(rownames(forewing.pca$x)),PC1=forewing.pca$x[,1],PC2=forewing.pca$x[,2])%>% 
   left_join(out.data)
-
-#contains both PCA1 and PCA 2 for forewing
 
 
 hindwing.AR.PCA <- hindwing.AR.DF %>% 
@@ -198,7 +162,6 @@ forewing.AR.PCA <- forewing.AR.DF %>%
 
 #### Evolutionary Rates
 
-We  then examined the evolutionary rates of the wing aspect ratios across a Lepidopteran  phylogentic tree from the @kawahara2019phylogenomics study.
 
 ```{r, results = FALSE, message = FALSE}
 
@@ -239,14 +202,6 @@ names(fore.AR) <-  forewing.AR.DF%>%
 foreAR.BM<-brownie.lite(lep.tree2,fore.AR*10)
 hindAR.BM<-brownie.lite(lep.tree2,hind.AR*10)
 
-```
-
-### Shifts in Evolutionary Rates
-
-
-Phylogenetic ridge regression was used to determine  whether major groups of the Lepidoptera have undergone significant changes in the rate of aspect ratio evolution. 
-
-```{r, results = FALSE, message = FALSE}
 hindAR.RR <- RRphylo(tree=lep.tree2,y=hind.AR)
 
 hindAR.SS<- search.shift(RR=hindAR.RR,status.type="clade")
@@ -308,11 +263,71 @@ plot_SS <- function(tre=NULL,SS=NULL,tax=NULL){
 
 ```
 
-### Shape evolution correlation
 
-Phylogenetic independent contrasts (PIC) analysis was used to determine whether hind- and forewing aspect ratio evolution is correlated.
 
-```{r, results = FALSE, message = FALSE}
+# Results
+#### PCA Analysis
+```{r, "PCA Analysis vs. AR", message=FALSE, echo=FALSE,fig.cap="PCA Analysis vs. AR"}
+hindwing.AR.PCA %>% 
+  ggplot(aes(x=hindwing.AR,y=PC1))+geom_point()+geom_smooth(method="lm")
+
+forewing.AR.PCA %>% 
+  ggplot(aes(x=forewing.AR,y=PC1))+geom_point()+geom_smooth(method="lm")
+
+hindwing.AR.PCA %>% 
+  ggplot(aes(x=hindwing.AR,y=PC2))+geom_point()+geom_smooth(method="lm")
+
+forewing.AR.PCA %>% 
+  ggplot(aes(x=forewing.AR,y=PC2))+geom_point()+geom_smooth(method="lm")
+```
+
+### Evolutionary rates
+```{r, "Load tree, drop tips not in PCA data", results = FALSE, message = FALSE, fig.cap="The Lepidopteran phylogenetic tree"}
+
+plot(lep.tree,cex=0.1)
+```
+
+
+```{r, "Comparing AR wing evolutionary rates"}
+#Compare wing AR evolutionary rates
+foreAR.BM$sig2.single
+hindAR.BM$sig2.single
+
+```
+Analysis showed that the evolutionary rates of wing aspect ratio differ between fore- and hindwings. There was a difference of 4.9434 units.
+
+#### Evolutionary Rate Shifts
+```{r, "Plot Phylo", include=FALSE}
+#Phylo Plot
+plot(lep.tree2)
+nodelabels(node = as.numeric(rownames(hindAR.SS$single.clades)),text = rownames(hindAR.SS$single.clades))
+
+hindAR.plot <- plotShift(RR=hindAR.RR,SS=hindAR.SS)
+
+foreAR.plot <- plotShift(RR=hindAR.RR,SS=hindAR.SS)
+hindAR.plot$plotClades()
+
+tax.names <- readRDS("Lep_classification.RDS")
+hindAR.res <- plot_SS(lep.tree2,hindAR.SS,tax = tax.names)
+```
+
+
+```{r, "Tree with shift highlighted", echo=FALSE,fig.cap="Figure 1: Lepidoptera phylogenetic tree with lineages with exceptional shifts in evolutionary rate indicated by a triangle. Blue and downward triangle signifies a low shift."}
+tax.names <- readRDS("Lep_classification.RDS")
+
+hindAR.res <- plot_SS(lep.tree2,hindAR.SS,tax = tax.names)
+
+hindAR.res$plot
+```
+```{r, "The scale of the shift", echo=FALSE, fig.cap = "The scale of the shift"}
+hindAR.res$res
+```
+The Obtectomera clade underwent a significant downshift in evolutionary rate, with a slowdown of -0.0245 units.
+
+#### Correlation of wing aspect ratio evolution
+
+```{r, "Regression of AR evolution correlation", message=FALSE, echo=FALSE, message=FALSE, echo=FALSE, fig.cap="Figure 3: Linear regression of AR evolutionary rates"}
+#AR evolution correlation
 hindAR.pic <- pic(hind.AR,phy = lep.tree2)
 foreAR.pic <- pic(fore.AR,phy = lep.tree2)
 
@@ -321,97 +336,18 @@ AR.pic <- tibble(
   fore=foreAR.pic
 )
 
-```
-
-
-# Results
-
-#### PCA Analysis
-
-```{r, "Forewing PCA Graph", message=FALSE, echo=FALSE,fig.cap="Figure 1: Biplot of Forewing PC1 and PC2"}
-  forewing.pca %>% 
-  plot_PCA(title = "forewings")
-```
-<br>
-
-```{r, "Hindwing PCA Graph", message=FALSE, echo=FALSE,fig.cap="Figure 2: Biplot of Hindwing PC1 and PC2"}
-  hindwing.pca %>% 
-  plot_PCA(title = "hindwings")
-```
-<br>
-
-```{r, "PCA1 vs. AR Hindwing", message=FALSE, echo=FALSE,fig.cap="Figure 3: Plotting PC1 against the Aspect Ratio of the Hindwing"}
-hindwing.AR.PCA %>% 
-  ggplot(aes(x=hindwing.AR,y=PC1))+geom_point()+geom_smooth(method="lm")
-```
-<br>
-```{r, "PCA1 vs. AR Forewing", message=FALSE, echo=FALSE,fig.cap="Figure 4: Plotting PC1 against the Aspect Ratio of the Forewing"}
-
-forewing.AR.PCA %>% 
-  ggplot(aes(x=forewing.AR,y=PC1))+geom_point()+geom_smooth(method="lm")
-```
-<br>
-```{r, "PCA2 vs. AR Hindwing", message=FALSE, echo=FALSE,fig.cap="Figure 5: Plotting PC2 against the Aspect Ratio of the Hindwing"}
-hindwing.AR.PCA %>% 
-  ggplot(aes(x=hindwing.AR,y=PC2))+geom_point()+geom_smooth(method="lm")
-
-```
-<br>
-```{r, "PCA2 vs. AR Forewing", message=FALSE, echo=FALSE,fig.cap="Figure 6: Plotting PC2 against the Aspect Ratio of the Forewing"}
-forewing.AR.PCA %>% 
-  ggplot(aes(x=forewing.AR,y=PC2))+geom_point()+geom_smooth(method="lm")
-
-```
-
-### Evolutionary rates
-```{r, "Load tree, drop tips not in PCA data", results = FALSE, message = FALSE, fig.cap="Figure 7: The Lepidopteran phylogenetic tree"}
-
-plot(lep.tree,cex=0.1)
-```
-
-```{r, "Comparing AR wing evolutionary rates"}
-#Compare wing AR evolutionary rates
-foreAR.BM$sig2.single
-hindAR.BM$sig2.single
-
-#rate
-hindAR.SS$single.clades
-```
-Analysis showed that wing aspect ratio evolutionary rates differ between fore- and hindwings. There was a difference of 4.9434 units.
-
-#### Evolutionary Rate Shifts
-
-
-```{r, "Tree with exceptional shift highlighted",echo=FALSE,fig.cap="Figure 8: Lepidoptera phylogenetic tree with lineages with exceptional shifts indicated by a triangle. Blue and downward triangle signifies a low shift."}
-#What clades/lineages underwent shift
-tax.names <- readRDS("Lep_classification.RDS")
-
-hindAR.res <- plot_SS(lep.tree2,hindAR.SS,tax = tax.names)
-
-hindAR.res$plot
-
-hindAR.res$res
-```
-
-#### Aspect Ratio Evolution Correlation
-
-```{r, "Aspect Ratio Evolution Correlation", fig.cap="Figure 9: Linear regression of PIC-transformed aspect ratios"}
-
 AR.pic %>% 
   ggplot(aes(x=fore,y=hind))+geom_point()+geom_smooth(method="lm")
-
+```
+```{r, echo=FALSE,"Summary of linear model of AR evolution"}
 summary(lm(hind~fore,AR.pic))
 ```
+Analysis of fore- and hindwing aspect ratios show that their evolution is correlated. Though the R-squared value is low, the p-value of 0.0002 indicates a significant relationship.
+
 # Discussion
 
+
+
 # Author Contributions
-
-Clare Mungovan: wrote the methods section
-
-Adam Qu: wrote the discussion and formatted and reported data in the results section
-
-Matteo Torquati: wrote the methods section and formatted and reported data in the results section
-
-Julie Vu: wrote the Introduction to the report
 
 # References
