@@ -337,6 +337,7 @@ AR.pic <- tibble(
   hindwing.pca %>% 
   plot_PCA(title = "hindwings")
 ```
+PCA scores plotted with transformed wing shapes overlayed to provide a qualitative representation of wing shape described by the PCs.
 <br>
 
 ```{r, "PCA1 vs. AR Hindwing", message=FALSE, echo=FALSE,fig.cap="Figure 3: Plotting PC1 against the Aspect Ratio of the Hindwing"}
@@ -361,6 +362,7 @@ forewing.AR.PCA %>%
   ggplot(aes(x=forewing.AR,y=PC2))+geom_point()+geom_smooth(method="lm")
 
 ```
+These graphs show PC scores plotted against wing aspect ratios.
 
 ### Evolutionary rates
 ```{r, "Load tree, drop tips not in PCA data", results = FALSE, message = FALSE, fig.cap="Figure 7: The Lepidopteran phylogenetic tree"}
@@ -405,7 +407,11 @@ summary(lm(hind~fore,AR.pic))
 Analysis of fore- and hindwing aspect ratio evolutionary rates shows that they are correlated. Though the R-squared value is low, the p-value is close to zero (0.0002), indicating a significant relationship.
 
 # Discussion
+Aspect ratio is a metric of wing shape. 
 
+Our comparison of the evolutionary rates of fore- and hindwing AR shows that forewing AR evolves at a faster rate than that of the hindwing. PAs seen in @stylman2019nymph and @@jantzen2008hind, forewings are essential in flight, with aspect ratio reliably predicting flight behavior. Their role in the essential function of flight may subject the forewing to higher selective pressure, leading to a higher evolutionary rate.
+
+Figure 8 highlights the lineage that saw a significant shift in evolutionary rate. It was found that the Obtectomera clade underwent a slowdown of -0.0245 units. This clade includes over 100,000 species across 12 superfamlies (@nieuk2011lep). The downshift shows Obtectomera moved away from the other Lepidoptera, converging on some specific aspect ratio. The largest clade within Obtectomera consists of the Pyraloidea and Macroheterocera, both moth families (@mitter2017lep).  
 
 # Author Contributions
 
