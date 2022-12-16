@@ -409,7 +409,7 @@ Analysis of fore- and hindwing aspect ratio evolutionary rates shows that they a
 # Discussion
 Aspect ratio is a metric of wing shape. 
 
-Our comparison of the evolutionary rates of fore- and hindwing AR shows that forewing AR evolves at a faster rate than that of the hindwing. PAs seen in @stylman2019nymph and @@jantzen2008hind, forewings are essential in flight, with aspect ratio reliably predicting flight behavior. Their role in the essential function of flight may subject the forewing to higher selective pressure, leading to a higher evolutionary rate.
+Our comparison of the evolutionary rates of fore- and hindwing AR shows that forewing AR evolves at a faster rate than that of the hindwing. PAs seen in @stylman2019nymph and @jantzen2008hind, forewings are essential in flight, with aspect ratio reliably predicting flight behavior. Their role in the essential function of flight may subject the forewing to higher selective pressure, leading to a higher evolutionary rate.
 
 Figure 8 highlights the lineage that saw a significant shift in evolutionary rate. It was found that the Obtectomera clade underwent a slowdown of -0.0245 units. This clade includes over 100,000 species across 12 superfamlies (@nieuk2011lep). The downshift shows Obtectomera moved away from the other Lepidoptera, converging on some specific aspect ratio. The largest clade within Obtectomera consists of the Pyraloidea and Macroheterocera, both moth families (@mitter2017lep).  
 
