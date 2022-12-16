@@ -14,18 +14,17 @@ knitr::opts_chunk$set(echo = TRUE)
 
 According to @hassall2015strong, aspect ratio is the length of the wing relative to the width and is a key shape parameter that determines flying capabilities. As mentioned by @betts1988wing, Lepidoptera species with high aspect ratios have high wing loading, higher gliding efficiency, and favor fast extended flight. In contrast, species with lower wing aspect ratios (shorter, broader wings) compensate with higher wingbeat frequency and therefore have greater maneuverability and dispersal ability. Due to aerodynamic principles, an increase in wingbeat frequency is needed in order to generate sufficient lift and thrust during flight. Consequently, there are increased energetic costs of flight and reduced survival. 
 
-In terms of the difference between hindwings and forewings, they have different roles in flight behavior and so they experience different selective pressures. 
-
-
 <center>
 ![Aspect Ratios of Different Planes. Image from [boldmethod](https://www.boldmethod.com/learn-to-fly/aircraft-systems/how-does-aspect-ratio-affect-aircraft-wings/)](https://cdn.boldmethod.com/images/blog/article/2015/02/your-guide-to-glider-flying/wing-aspect-ratio.jpg){width=60%}
+</center>
 
+In terms of hindwings and forewings, they are mechanically coupled. However, they have different roles in flight behavior and therefore experience different selective pressures. In one study by @stylman2019nymph looking at flight performance of Nymphalidae butterflies, the forewing aspect ratio was shown to be a reliable predictor of flight behavior. Research from @jantzen2008hind has supported the previous finding, showing that even if the hindwings were removed, butterflies were still capable of flight. While hindwings help with evasive maneuvers, flight is mostly driven by the forewings. 
 
-
+We seek to discuss the relationship between PCA and wing aspect ratio, and the difference between forewing and hindwing aspect ratio evolution rates. This data may prove important in determining behavioral flight patterns that may be affected by wing shape and how this may also affect survival. With these in mind, we also wanted to investigate if any major lineages of the Lepidoptera had significant shifts in the evolutionary rate of wing aspect ratio and if there is correlation between the evolutionary rates of forewings and hindwings. 
 
 
 # Methods
-
+#### Procedural Outline
 1. Begin with digitizing and outlining the hindwing and forewing of 200 species.
 2. Calculated wing aspect ratio for both the hindwings and forewings by using the Procrustes transformation. 
 3. PCA was performed to analyze the digitized files by creating 2 vectors. PC1, the first vector, accounts for the most variance within the data set. PC2, the second vector, accounts for the second most variance
@@ -407,13 +406,14 @@ Analysis of fore- and hindwing aspect ratio evolutionary rates shows that they a
 
 # Discussion
 
+
 # Author Contributions
 
-Clare Mungovan: wrote the methods section
+Clare Mungovan: wrote the Methods section
 
-Adam Qu: wrote the discussion and formatted and reported data in the results section
+Adam Qu: wrote the discussion and formatted and reported data in the Results section
 
-Matteo Torquati: wrote the methods section and formatted and reported data in the results section
+Matteo Torquati: wrote the Methods section and formatted and reported data in the Results section
 
 Julie Vu: wrote the Introduction to the report
 
