@@ -1,0 +1,237 @@
+---
+title: "Module 7 Project"
+author: "Callback Cats"
+date: "2022-11-20"
+output: html_document
+bibliography: BIOL3140_mod7.bib
+---
+# Introduction
+The force produced by the contractions of skeletal muscle allows for movement and stabilization of joints, among other functions. Muscle generation of tension, or force, is based on the speed and length of the muscle. In particular, sliding filament theory posits that sarcomeres produce force by forming cross-bridges, protein complexes formed from the binding of overlapping actin and myosin. This means that greater cross-bridge formation leads to greater force production. It can then be inferred that sarcomere maximal isometric force is determined by the amount of actin-myosin overlap, which changes with muscle fiber length and implies an optimal length for maximal force production (Fig. 1). In this project, the force-length relationship is studied using human forearm flexors, with muscle length manipulated by altering elbow angle. We can then investigate the effect of muscle fiber length on force generation, as well as how the FL relationship is impacted by fatigue.
+
+<center>
+![**Fig. 1.** The sarcomere force-length relationship. Graph from @libretexts2020muscle.](https://s3-us-west-2.amazonaws.com/courses-images/wp-content/uploads/sites/1940/2017/05/29212852/h-20tension-20relationship.png)
+</center>
+
+
+A previous study (@Sharma2020angles), observed the FL relationship by measuring maximum isometric contraction in the forearm over a range of elbow angles, finding that maximal force production occurred at an intermediate elbow angle of 90°. @Muanjai2020knee examined knee extensor isometric maximal voluntary contractions (MVCs) at various angles before and after eccentric exercise, finding a loss of force after exercise. Though the authors attribute the force decrease to a deficit in excitation-contraction coupling, it is clear that fatigue has an effect on force production.
+
+We seek to construct isometric force-angle curves for forearm flexor MVCs at a number of elbow angles. The angle (θmax) at which non-fatigued (control) maximum isometric force occurs will be compared to the θmax of fatigued MVCs. The data collected here will help us to answer if isometric MVCs from different subjects coalesce around a typical FL relationship, and if θmax differs significantly between control and fatigue FL relationships.
+
+
+# Methods
+
+To begin, each group member performed forearm contractions at twelve different elbow angles and these were measured as the control using DAQ. Then, each individual fatigued their elbow flexor muscles and produced maximum voluntary contractions at the same angles as the control. After compiling the MVC data that was collected, the maximum force at each angle and the maximum force across all angles for each group member was found. Next, to normalize the data on a scale of 0 to 1 (1 being the highest recorded force), the maximum values of each angle was divided by Fmax. After normalizing the data, the maximum values were plotted, along with a graph of the mean normalized forces for each angle and experiment. To find the best fit, three models were created. The model found to fit best (lowest AICc score) was used to predict the force for 1000 angles. With the collected data, AIC tests were performed and then the AICs and fits tables were joined. Next, ANOVA tests were performed to test for significant difference of θmax between the control and fatigue FL relationships. Lastly, the mean of θmax and standard error of the mean was calculated. 
+
+Experimental Protocol:
+1. Construct and program a load-cell data acquisition system.
+2. Make a goniometer.
+3. Record isometric MVCs at 12 distinct elbow angles to act as a control.
+4. Eccentrically fatigued our flexors and waited 2 minutes.
+5. Repeat recording isometric MVCs at the same 12 distinct elbow angles.
+6. Upload data to directory.
+7. Analyze data to find maximum force (Fmax) for each recording, and to find maximum force across all angles for each experiment (control or fatigued) for each individual and then divide all maximum values for that experiment by Fmax to calculate θmax .
+
+
+#### Setting Up Dataset for Analysis
+
+```{r, message = FALSE}
+library(tidyverse)
+library(MuMIn)
+library(ggplot2)
+library(dplyr)
+```
+
+Here we are reading in the data and calculating the normalized force data.
+```{r, "loading data and creating a data set", echo=TRUE, results=FALSE, message=FALSE}
+k <- list.files("./Project 8 Data", full.names = T,pattern = ".csv")
+print(k)
+k.l <- list()
+
+for(i in k){
+  met.dat <- unlist(strsplit(i,"_"))
+  sub <- met.dat[2]
+  ang <- as.numeric(met.dat[3])
+  exp <- gsub("\\..+","",met.dat[4])
+  k.l[[i]] <- read_delim(i,delim = " ", col_names = c("Reading","Force","Unit"), id="Experiment",progress = FALSE) %>%select(Force)%>%
+    mutate(sub=sub,ang=ang,exp=exp)
+}
+
+data <- do.call(rbind, k.l)
+data <- data%>%
+  group_by(sub,exp,ang)%>%
+  summarise(max.force=max(abs(Force), na.rm=TRUE), n=n())
+
+data <- na.omit(data)
+
+data.joined <- data%>%
+  group_by(sub,exp)%>%
+  summarize(max.f2 = max(max.force))%>%
+  left_join(data)%>%
+  mutate(norm.force=max.force/max.f2)
+
+data.con <- filter(data.joined,exp=="control")
+data.fat <- filter(data.joined,exp=="fatigue")
+```
+
+Here we are just separating the normalized force and angle values for the control and fatigue  data respectively. 
+```{r, "setting up con and fat datasets", echo=TRUE, results=FALSE, message=FALSE}
+
+ang.con <- data.con$ang
+normF.con <- data.con$norm.force
+
+ang.fat <- data.fat$ang
+normF.fat <- data.fat$norm.force
+```
+# Results
+
+
+## Control Conditions
+
+```{r, "con models", message=FALSE}
+poly.m2.con <- lm(normF.con~poly(ang.con,2)) #second order
+poly.m3.con <- lm(normF.con~poly(ang.con,3)) #third order
+poly.m4.con <- lm(normF.con~poly(ang.con,4)) #fourth order
+
+AICc(poly.m2.con,poly.m3.con,poly.m4.con)
+```
+
+#### The fourth order model fits the best to data because it is has the lowest AIC score. 
+
+```{r, "con pred", message=FALSE}
+
+x.pred<- seq(45,157.5,length.out = 1000) #define 1000 angles from our range
+
+normF.pred.con <- predict(poly.m3.con,newdata = data.frame(ang.con=x.pred)) #predict the force using 1000 angles
+
+
+
+```
+
+#### Normative Force vs. Angle of Arm for Control Conditions
+
+```{r, "con graphs", echo=TRUE, results=FALSE, message=FALSE}
+qplot(ang.con,normF.con)+geom_point(aes(x=x.pred,y=normF.pred.con),col="red")+geom_point(aes(x=x.pred[which.max(normF.pred.con)],y=normF.pred.con[which.max(normF.pred.con)]),size=5,col="blue")
+
+```
+
+#### Theta Max for Control Conditions
+
+```{r, "con theta max", message=FALSE}
+x.pred[which.max(normF.pred.con)]  
+```
+
+## Fatigue Condtions
+
+```{r, "Fat models", message=FALSE}
+poly.m2.fat <- lm(normF.fat~poly(ang.fat,2)) #second order
+poly.m3.fat <- lm(normF.fat~poly(ang.fat,3)) #third order
+poly.m4.fat <- lm(normF.fat~poly(ang.fat,4)) #fourth order
+
+AICc(poly.m2.fat,poly.m3.fat,poly.m4.fat) 
+```
+
+#### The thirds order model fits to the data the best because it is has the lowest AIC score. 
+
+```{r, "Fat pred", message=FALSE}
+normF.pred.fat <- predict(poly.m4.fat,newdata = data.frame(ang.fat=x.pred)) #predict the force using 1000 angles
+
+```
+
+#### Normative Force vs. Angle of Arm for Fatigue Conditions
+
+```{r, "Fat graph ", echo=TRUE, results=FALSE, message=FALSE}
+qplot(ang.fat,normF.fat)+geom_point(aes(x=x.pred,y=normF.pred.fat),col="red")+geom_point(aes(x=x.pred[which.max(normF.pred.fat)],y=normF.pred.fat[which.max(normF.pred.fat)]),size=5,col="blue")
+```
+
+```{r, "Fat theta max",message=FALSE}
+x.pred[which.max(normF.pred.fat)]-x.pred[which.max(normF.pred.con)] 
+```
+
+#### There is a 15.5 degree shift in theta max.
+
+<br>
+
+#### Normative Force vs. Angle of Arm Grouped by Control and Fatigue Conditions 
+```{r, "overlaying graph",echo=TRUE, results=FALSE, message=FALSE}
+data.joined%>%
+  ggplot(aes(ang,norm.force,col=exp))+geom_point()
+```
+
+
+Here we are calculating the AIC scores and fitting the models. 
+```{r, "Calculating AIC", message=FALSE}
+AICs <- data.joined%>%
+  group_by(sub,exp)%>%
+  summarize(
+    m2=AICc(lm(norm.force~poly(ang,2))), #second order
+    m3=AICc(lm(norm.force~poly(ang,3))), #third order
+    m4=AICc(lm(norm.force~poly(ang,4))) #fourth order
+  )%>%
+  pivot_longer(m2:m4,names_to="model",values_to="AICc")%>%
+  print()
+
+fits <- data.joined%>%
+  group_by(sub,exp)%>%
+  summarize(
+    m2=predict(lm(norm.force~poly(ang,2)),newdata=data.frame(ang=x.pred)), #second order
+    m3=predict(lm(norm.force~poly(ang,3)),newdata=data.frame(ang=x.pred)), #third order
+    m4=predict(lm(norm.force~poly(ang,4)),newdata=data.frame(ang=x.pred)) #fourth order
+  )%>%
+  pivot_longer(m2:m4,names_to="model")%>%
+  group_by(sub,exp,model)%>%
+  summarize(theta_max=x.pred[which.max(value)])%>%
+  print()
+
+best.models <- fits%>%
+  left_join(AICs)%>%
+  group_by(sub,exp)%>%
+  mutate(best=AICc==min(AICc))%>%
+  filter(best==TRUE)%>%
+  dplyr::select(-best)%>%
+  print()
+```
+
+Performing an ANOVA to investigate whether a shift of theta max is different between the control and fatigue experiments.
+
+```{r, "Calculating ANOVA", message=FALSE}
+anova(lm(theta_max~exp,best.models))
+```
+
+Calculating the mean shift with SEM.
+
+```{r, "Calculating mean shift", message=FALSE}
+best.models%>%
+  pivot_wider(id_cols=sub,names_from = exp,values_from=theta_max)%>%
+  mutate(shift=fatigue-control)%>%
+  ungroup()%>%
+  summarize(mean.shift=abs(mean(na.rm=TRUE,shift)),se.shift=sd(na.rm=TRUE,shift)/sqrt(length(shift)))
+
+```
+
+#### There is a 8 degree shift in the mean of theta max between the control and fatigue conditions. 
+
+# Discussion
+Actin-myosin overlap and maximal isometric force of a sarcomere are directly related. In @Maganaris2001FL, the transition from 30° of dorsiflexion to 45° of plantarflexion showed the human soleus (SOL) muscle fiber length decreased from 3.8 to 2.4 centimeters and consequently its force decreased from 3330 all the way down to 290 Newtons. Over the same range of angles, the tibialis anterior (TA) muscle fiber length increased from 3.7 to 6.0 centimeters and its force increased from 157 to 644 Newtons. These results indicated that the human SOL and TA muscles operate in an ascending limb and plateau of a typical FL relationship.
+
+A graph of the force-length relationship is typically a parabola. The center of the parabola indicates the maximum force that is generated. Therefore, in a range of angles from 45 degrees to 157 degrees, 100 degrees is expected to generate the maximum force. It is also expected that force will increase from 45 to 100 degrees and then decrease from 100 to 157 degrees. The class-wide force-angle data did not show a typical FL relationship for both the control and fatigue group. The max force is around 145 for control, and there is very little decrease from the maximum until 157 degrees. The max force for fatigue was at 157 degrees and this group had no decrease. There was a very slight plateau from 110-140 but then the graph increased again.
+
+There is a significant shift between θmax between the control and fatigue FL relationships. This is shown by the 8 degree shift in the mean of θmax between the control and fatigue conditions after performing an ANOVA test to investigate whether a shift of θmax is different between the control and fatigue experiments, and calculating the mean shift with SEM. Since the p-value is less than 0.05, it can be concluded that there is a statistically significant difference between the control and fatigue FL relationships. In conclusion, the isometric MVCs from different subjects don’t coalesce around a typical FL relationship, and θmax differs significantly between control and fatigue FL relationships. 
+ 
+
+# Author Contributions
+All authors were involved in data collection. 
+Clare Mungovan: worked with Julie on Methods and Discussion. 
+Adam Qu: worked on the Introduction and made general edits.
+Matteo Torquati: worked on the Results section.
+Julie Vu: worked with Clare on Methods and Discussion
+
+## CPK comments
+
+Excellent work. Great job putting the code together to model the shifts. And you found one!! Your discussion is great, too. 
+
+My only criticism is that tables should be formatted (e.g., with `kable`) and they need a caption above them. (-2)
+
+
+72/75
+
+# References
